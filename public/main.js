@@ -7,8 +7,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "공개 API 키",
-  authDomain: "kkomaweb-wiki.firebaseapp.com"
+  apiKey: "AIzaSyDzWZtDMzb4cNoauLA4NvmxqO6C_ot00AA",
+  authDomain: "smssend-b82b3.firebaseapp.com"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
