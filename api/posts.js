@@ -1,7 +1,9 @@
 import admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
-console.log(process.env.FIREBASE_PRIVATE_KEY);
-console.log(process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'));
+const restored = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+console.log('줄 수:', restored.split('\n').length); // 줄 개수가 10줄 이상이면 OK
+console.log('첫 줄:', restored.split('\n')[0]);    // BEGIN
+console.log('마지막 줄:', restored.split('\n').slice(-1)[0]); // END
 // if (!getApps().length) {
 //   admin.initializeApp({
 //     credential: admin.credential.cert({
