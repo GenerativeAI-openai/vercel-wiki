@@ -108,3 +108,36 @@ searchBtn.addEventListener("click", () => {
   const keyword = searchInput.value.trim();
   loadPosts(keyword);
 });
+
+
+
+function applyPostFormatting(postEl, post) {
+  const contentPreview = post.content.length > 100 ? post.content.slice(0, 100) + "..." : post.content;
+  postEl.innerHTML = `
+    <h3><a href="/post?id=${post.id}">${post.title}</a></h3>
+    <p>${contentPreview}</p>
+    <button class="read-more" onclick="location.href='/post?id=${post.id}'">더보기</button>
+    <p>❤️ 좋아요: <span id="like-${post.id}">${post.likes || 0}</span> <button onclick="likePost('${post.id}')">좋아요</button></p>
+  `;
+}
+
+function likePost(postId) {
+  fetch('/api/posts?id=' + postId + '&like=true', { method: 'POST' })
+    .then(() => {
+      const el = document.getElementById('like-' + postId);
+      if (el) el.innerText = parseInt(el.innerText) + 1;
+    });
+}
+
+function updateFontControls() {
+  const content = document.getElementById("content");
+  if (!content) return;
+  document.getElementById("font-size").addEventListener("change", e => {
+    content.style.fontSize = e.target.value;
+  });
+  document.getElementById("font-family").addEventListener("change", e => {
+    content.style.fontFamily = e.target.value;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", updateFontControls);
