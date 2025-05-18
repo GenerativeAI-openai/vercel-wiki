@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
-const restored = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n').replace(/\n/g, '\n');//;
+const restored = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, '\n');//process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
 console.log('복원된 프라이벗:', restored);
 console.log('첫 줄:', restored.split('\n')[0]);
 // if (!getApps().length) {
@@ -16,9 +16,10 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),//.replace(/\//g, ""),
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, '\n'),
   }),
 });
+//process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
 const db = admin.firestore();
 
 export default async function handler(req, res) {
