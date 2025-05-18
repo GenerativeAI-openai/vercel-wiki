@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
 console.log(process.env.FIREBASE_PRIVATE_KEY);
-console.log(process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n").replace(/\//g, "");
+console.log(process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n").replace(/\//g, ""));
 // if (!getApps().length) {
 //   admin.initializeApp({
 //     credential: admin.credential.cert({
