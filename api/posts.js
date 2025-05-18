@@ -17,7 +17,8 @@ admin.initializeApp({
     privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
   }),
 });
-
+console.log(process.env.FIREBASE_PRIVATE_KEY)
+console.log(process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'))
 const db = admin.firestore();
 
 export default async function handler(req, res) {
