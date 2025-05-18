@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
-const restored = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n");//process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+const restored = JSON.parse(process.env.FIREBASE_PRIVATE_KEY);//.replace(/\\n/g, "\n");//process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
 console.log('복원된 프라이벗:', restored);
 console.log('첫 줄:', restored.split('\n')[0]);
 // if (!getApps().length) {
