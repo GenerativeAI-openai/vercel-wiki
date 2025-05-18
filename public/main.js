@@ -1,3 +1,4 @@
+
 function simpleMarkdownToHTML(text) {
   return text
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -142,7 +143,7 @@ function applyPostFormatting(postEl, post) {
     <h3><a href="/post?id=${post.id}">${post.title}</a></h3>
     <p>${contentPreview}</p>
     <button class="read-more" onclick="location.href='/post?id=${post.id}'">더보기</button>
-    <p>좋아요: <span id="like-${post.id}">${post.likes || 0}</span> <button onclick="likePost('${post.id}')">❤️</button></p>
+    <p>❤️ 좋아요: <span id="like-${post.id}">${post.likes || 0}</span> <button onclick="likePost('${post.id}')">좋아요</button></p>
   `;
 }
 
@@ -166,3 +167,34 @@ function updateFontControls() {
 }
 
 document.addEventListener("DOMContentLoaded", updateFontControls);
+
+
+
+function wrapSelectionWith(tag) {
+  const textarea = document.getElementById("contentInput");
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const before = textarea.value.substring(0, start);
+  const selected = textarea.value.substring(start, end);
+  const after = textarea.value.substring(end);
+
+  let wrapper = "";
+  if (tag === "bold") wrapper = "**";
+  if (tag === "italic") wrapper = "*";
+  if (tag === "strike") wrapper = "~~";
+
+  textarea.value = before + wrapper + selected + wrapper + after;
+  textarea.focus();
+  textarea.selectionStart = start;
+  textarea.selectionEnd = end + wrapper.length * 2;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const boldBtn = document.getElementById("boldBtn");
+  const italicBtn = document.getElementById("italicBtn");
+  const strikeBtn = document.getElementById("strikeBtn");
+
+  if (boldBtn) boldBtn.addEventListener("click", () => wrapSelectionWith("bold"));
+  if (italicBtn) italicBtn.addEventListener("click", () => wrapSelectionWith("italic"));
+  if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
+});
