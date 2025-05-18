@@ -1,9 +1,8 @@
 import admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
 const restored = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
-console.log('줄 수:', restored.split('\n').length); // 줄 개수가 10줄 이상이면 OK
-console.log('첫 줄:', restored.split('\n')[0]);    // BEGIN
-console.log('마지막 줄:', restored.split('\n').slice(-1)[0]); // END
+console.log('복원된 프라이벗:', restored); // 줄 개수가 10줄 이상이면 OK
+console.log('첫 줄:', restored.split('\n')[0]);
 // if (!getApps().length) {
 //   admin.initializeApp({
 //     credential: admin.credential.cert({
