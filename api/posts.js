@@ -35,7 +35,12 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const snapshot = await db.collection("posts").get();
+    
+    const snapshot = await db.collection("posts")
+      .orderBy("likes", "desc")
+      .limit(5)
+      .get();
+    
     const posts = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
@@ -49,7 +54,16 @@ export default async function handler(req, res) {
     return res.status(200).json(posts);
   }
 
-  if (req.method === "POST") {
+  
+    if (req.method === "POST" && req.query.like) {
+      const postId = req.query.id;
+      const ref = db.collection("posts").doc(postId);
+      await ref.update({ likes: admin.firestore.FieldValue.increment(1) });
+      return res.status(200).json({ success: true });
+    }
+
+    if (req.method === "POST") {
+    
     if (!uid) {
       return res.status(403).json({ error: "Login required" });
     }
