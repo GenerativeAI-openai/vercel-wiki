@@ -17,37 +17,17 @@
 </header>
 <main>
 <section id="editor">
-  <h2>글 작성/수정</h2>
+<h2>글 작성/수정</h2>
+<input id="titleInput" placeholder="제목" type="text"/>
 
-  <div id="markdown-help" style="margin-bottom: 1em; font-size: 0.9em;">
-    <p><strong>※ 마크다운 사용법:</strong></p>
-    <ul>
-      <li><code># 제목</code>, <code>## 소제목</code>, <code>### 더 작은 제목</code></li>
-      <li><code>**굵게**</code>, <code>*기울임*</code>, <code>~~취소선~~</code></li>
-      <li><code>* 목록 항목</code>, <code>---</code> (가로 줄)</li>
-    </ul>
-  </div>
-
-  <div style="margin-bottom: 10px;">
-    <select id="font-size" class="font-size-selector">
-      <option value="1em">기본 크기</option>
-      <option value="1.2em">조금 큼</option>
-      <option value="1.5em">크게</option>
-      <option value="2em">아주 크게</option>
-    </select>
-    <select id="font-family" class="font-size-selector">
-      <option value="inherit">기본 폰트</option>
-      <option value="Arial">Arial</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Courier New">Courier New</option>
-    </select>
-  </div>
-
-  <input id="titleInput" placeholder="제목" type="text">
-  <textarea id="contentInput" placeholder="내용"></textarea>
-  <button id="saveBtn">저장</button>
+<div id="toolbar" style="margin-bottom: 8px;">
+<button id="boldBtn" type="button"><b>굵게</b></button>
+<button id="italicBtn" type="button"><i>기울임</i></button>
+<button id="strikeBtn" type="button"><s>취소선</s></button>
+</div>
+<textarea id="contentInput" placeholder="내용"></textarea>
+<button id="saveBtn">저장</button>
 </section>
-
 <section id="post-list"></section>
 </main>
 </body>
