@@ -75,13 +75,11 @@ footer {
   text-align: center;
 }
 
-/* textarea 스타일 */
 textarea {
   resize: none;
-  min-height: 12em; /* 6~8배 늘림 */
+  min-height: 12em;
 }
 
-/* 더보기 버튼 */
 .read-more {
   color: #007bff;
   cursor: pointer;
@@ -92,7 +90,6 @@ textarea {
   font-weight: bold;
 }
 
-/* 글자 크기 선택 */
 .font-size-selector {
   margin-left: 10px;
   padding: 2px 6px;
