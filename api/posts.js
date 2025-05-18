@@ -1,12 +1,7 @@
 import admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
 const restored = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
-if (restored.includes('\\')) {
-  restored.replace(/\//g, '');
-  console.log('복원된 프라이벗(슬래시 포함, 제거함):', restored);
-} else {
-  console.log('복원된 프라이벗:', restored);
-}
+console.log('복원된 프라이벗:', restored);
 console.log('첫 줄:', restored.split('\n')[0]);
 // if (!getApps().length) {
 //   admin.initializeApp({
