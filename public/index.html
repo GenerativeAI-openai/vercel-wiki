@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>꿈나무백과</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="main.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>꿈나무백과</title>
+<link href="style.css" rel="stylesheet"/>
+<script src="main.js" type="module"></script>
 </head>
 <body>
-  <header>
-    <h1>꿈나무백과</h1>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="검색어를 입력하세요...">
-      <button id="searchBtn">검색</button>
-    </div>
-  </header>
-
-  <main>
-
-    <section id="editor">
-      <h2>글 작성/수정</h2>
-      <input type="text" id="titleInput" placeholder="제목" />
-      <textarea id="contentInput" placeholder="내용"></textarea>
-      <button id="saveBtn">저장</button>
-    </section>
-  </main>
-  <section id="post-list"></section>
+<header>
+<h1>꿈나무백과</h1>
+<div class="search-box">
+<input id="searchInput" placeholder="검색어를 입력하세요..." type="text"/>
+<button id="searchBtn">검색</button>
+</div>
+</header>
+<main>
+<section id="editor">
+<h2>글 작성/수정</h2>
+<input id="titleInput" placeholder="제목" type="text">
+<textarea id="contentInput" placeholder="내용"></textarea>
+<button id="saveBtn">저장</button>
+</input>
+</section>
+<section id="post-list"></section>
+</main>
 </body>
 </html>
