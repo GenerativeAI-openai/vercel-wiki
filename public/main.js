@@ -1,3 +1,28 @@
+function simpleMarkdownToHTML(text) {
+  return text
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/^\* (.*$)/gim, '<li>$1</li>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/~~(.*?)~~/gim, '<del>$1</del>')
+    .replace(/^---$/gim, '<hr>')
+    .replace(/\n/g, '<br>');
+}
+
+
+function simpleMarkdownToHTML(text) {
+  return text
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/~~(.*?)~~/gim, '<del>$1</del>')
+    .replace(/\n/g, '<br>');
+}
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
@@ -57,7 +82,7 @@ async function loadPosts(filter = "") {
     .forEach((post) => {
       const postEl = document.createElement("div");
       postEl.className = "post-item";
-      postEl.innerHTML = `
+      postEl.innerHTML = simpleMarkdownToHTML(`
         <h3>${post.title}</h3>
         <p>${post.content}</p>
         ${
@@ -113,11 +138,11 @@ searchBtn.addEventListener("click", () => {
 
 function applyPostFormatting(postEl, post) {
   const contentPreview = post.content.length > 100 ? post.content.slice(0, 100) + "..." : post.content;
-  postEl.innerHTML = `
+  postEl.innerHTML = simpleMarkdownToHTML(`
     <h3><a href="/post?id=${post.id}">${post.title}</a></h3>
     <p>${contentPreview}</p>
     <button class="read-more" onclick="location.href='/post?id=${post.id}'">더보기</button>
-    <p>❤️ 좋아요: <span id="like-${post.id}">${post.likes || 0}</span> <button onclick="likePost('${post.id}')">좋아요</button></p>
+    <p>좋아요: <span id="like-${post.id}">${post.likes || 0}</span> <button onclick="likePost('${post.id}')">❤️</button></p>
   `;
 }
 
