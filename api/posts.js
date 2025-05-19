@@ -37,9 +37,9 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     
     const snapshot = await db.collection("posts")
-      .orderBy("likes", "desc")
-      .limit(5)
-      .get();
+      // .orderBy("likes", "desc")
+      // .limit(5)
+      // .get();
     
     const posts = snapshot.docs.map((doc) => {
       const data = doc.data();
