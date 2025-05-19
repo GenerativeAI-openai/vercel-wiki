@@ -49,7 +49,6 @@ export default async function handler(req, res) {
         content: data.content,
         owner: data.owner || null,
         editable: uid && uid === data.owner,
-        uid: uid,
       };
     });
     console.log(`검색 결과 첫번째 항목: ${posts?.[0]}`)
