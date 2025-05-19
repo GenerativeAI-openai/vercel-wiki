@@ -66,6 +66,8 @@ async function loadPosts(filter = "") {
   });
   const posts = await res.json();
   postList.innerHTML = "";
+  const canThisUserEdit = posts?.[0].editable
+  document.getElementById("editor").style.display = "block";
   posts
     .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
     .forEach((post) => {
@@ -96,7 +98,7 @@ saveBtn.addEventListener("click", async () => {
   const title = titleInput.value.trim();
   const content = contentInput.value.trim();
   if (!title || !content) return alert("제목과 내용을 입력해주세요.");
-
+  if (canThisUserEdit) {
   const endpoint = currentEditId ? `/api/posts/${currentEditId}` : `/api/posts`;
   const method = currentEditId ? "PUT" : "POST";
 
@@ -118,6 +120,7 @@ saveBtn.addEventListener("click", async () => {
   titleInput.value = "";
   contentInput.value = "";
   await loadPosts();
+  }
 });
 
 searchBtn.addEventListener("click", () => {
