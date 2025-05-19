@@ -12,18 +12,6 @@ function simpleMarkdownToHTML(text) {
     .replace(/\n/g, '<br>');
 }
 
-
-function simpleMarkdownToHTML(text) {
-  return text
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-    .replace(/~~(.*?)~~/gim, '<del>$1</del>')
-    .replace(/\n/g, '<br>');
-}
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
