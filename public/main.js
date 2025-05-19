@@ -88,6 +88,8 @@ window.editPost = (id, title, content) => {
   currentEditId = id;
   titleInput.value = title;
   contentInput.value = content;
+  const editor = document.getElementById("editor");
+  editor.style.sidplay = "block";
 };
 
 saveBtn.addEventListener("click", async () => {
