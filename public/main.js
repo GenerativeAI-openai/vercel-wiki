@@ -100,7 +100,7 @@ saveBtn.addEventListener("click", async () => {
   const title = titleInput.value.trim();
   const content = contentInput.value.trim();
   if (!title || !content) return alert("제목과 내용을 입력해주세요.");
-  if (canThisUserEdit) {
+  if (true) {
   const endpoint = currentEditId ? `/api/posts/${currentEditId}` : `/api/posts`;
   const method = currentEditId ? "PUT" : "POST";
 
