@@ -79,8 +79,7 @@ async function loadPosts(filter = "") {
             ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`
             : ""
         }
-      `;
-      )
+      `);
       postList.appendChild(postEl);
     });
 }
