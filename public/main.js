@@ -132,7 +132,7 @@ function applyPostFormatting(postEl, post) {
     <p>${contentPreview}</p>
     <button class="read-more" onclick="location.href='/post?id=${post.id}'">더보기</button>
     <p>❤️ 좋아요: <span id="like-${post.id}">${post.likes || 0}</span> <button onclick="likePost('${post.id}')">좋아요</button></p>
-  `;
+  `);
 }
 
 function likePost(postId) {
