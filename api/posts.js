@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     
-    const snapshot = await db.collection("posts")
+    const snapshot = await db.collection("posts").get();
       // .orderBy("likes", "desc")
       // .limit(5)
       // .get();
