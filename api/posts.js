@@ -51,6 +51,7 @@ export default async function handler(req, res) {
         editable: uid && uid === data.owner,
       };
     });
+    console.log(`검색 결과 첫번째 항목의 id: ${posts[0].id}`)
     return res.status(200).json(posts);
   }
 
