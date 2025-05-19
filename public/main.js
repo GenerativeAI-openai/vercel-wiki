@@ -67,7 +67,9 @@ async function loadPosts(filter = "") {
   const posts = await res.json();
   postList.innerHTML = "";
   const canThisUserEdit = posts?.[0].editable
-  document.getElementById("editor").style.display = "block";
+  if (canThisUserEdit) {
+    document.getElementById("editor").style.display = "block";
+  }
   posts
     .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
     .forEach((post) => {
