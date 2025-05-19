@@ -58,6 +58,7 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 async function loadPosts(filter = "") {
+  console.log(`검색어: ${filter}`)
   const res = await fetch("/api/posts", {
     headers: {
       Authorization: `Bearer ${currentToken}`,
@@ -65,9 +66,8 @@ async function loadPosts(filter = "") {
   });
   const posts = await res.json();
   postList.innerHTML = "";
-
   posts
-    .filter(post => post.title.includes(filter))
+    .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
     .forEach((post) => {
       const postEl = document.createElement("div");
       postEl.className = "post-item";
