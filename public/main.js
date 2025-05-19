@@ -80,6 +80,7 @@ async function loadPosts(filter = "") {
             : ""
         }
       `;
+      )
       postList.appendChild(postEl);
     });
 }
