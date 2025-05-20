@@ -4,7 +4,7 @@ async function fetchPost() {
   if (!id) return;
 
   try {
-    document.getElementById("post").innerText = "게시물을 불러오는 중입니다...";
+    document.getElementById("post-title").innerText = "게시물을 불러오는 중입니다...";
     const res = await fetch(`/api/posts/${id}`);
     const post = await res.json();
     document.getElementById("post-title").innerText = post.title;
