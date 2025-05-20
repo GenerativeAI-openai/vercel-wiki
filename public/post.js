@@ -12,6 +12,7 @@ async function fetchPost() {
     document.getElementById("post-content").innerHTML = simpleMarkdownToHTML(post.content || "");
   } catch (e) {
     document.getElementById("post").innerText = "게시물을 불러오는 데 실패했습니다.";
+    console.log(e)
   }
 }
 
