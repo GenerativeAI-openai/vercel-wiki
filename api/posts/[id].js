@@ -39,7 +39,7 @@ export default async function handler(req, res) {
   }
 
   const data = postDoc.data();
-  if (data.owner !== uid) {
+  if (data.owner !== uid && method != "GET") {
     return res.status(403).json({ error: "Permission denied" });
   }
 
@@ -52,6 +52,12 @@ export default async function handler(req, res) {
   if (method === "DELETE") {
     await postRef.delete();
     return res.status(200).json({ message: "Deleted" });
+  }
+  if (method === "GET") {
+    return res.status(200).json({
+      title: data.title,
+      content: data.content,
+    });
   }
 
   return res.status(405).end();
