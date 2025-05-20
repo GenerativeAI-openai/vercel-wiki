@@ -74,10 +74,10 @@ async function loadPosts(filter = "") {
     .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
     .forEach((post) => {
       const postEl = document.createElement("div");
-      postEl.className = "post-item";
+      postEl.onclick = `location.href='/posts/${post.id}';`
+      postEl.className = "post-item";//<p>${post.content}</p>
       postEl.innerHTML = simpleMarkdownToHTML(`
         <h3>${post.title}</h3>
-        <p>${post.content}</p>
         ${
           post.editable
             ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`
