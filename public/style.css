@@ -97,3 +97,9 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+#popup-allow-text {
+  font-size: 12px;
+  font-color: white;
+  display: none;
+}
