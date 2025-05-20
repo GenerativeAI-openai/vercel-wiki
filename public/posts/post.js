@@ -8,7 +8,7 @@ async function fetchPost() {
     const post = await res.json();
 
     document.getElementById("post-title").innerText = post.title;
-    document.getElementById("post-likes").innerText = `❤️ 좋아요: ${post.likes || 0}`;
+    // document.getElementById("post-likes").innerText = `❤️ 좋아요: ${post.likes || 0}`;
     document.getElementById("post-content").innerHTML = simpleMarkdownToHTML(post.content || "");
   } catch (e) {
     document.getElementById("post").innerText = "게시물을 불러오는 데 실패했습니다.";
