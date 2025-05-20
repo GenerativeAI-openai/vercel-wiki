@@ -77,8 +77,8 @@ async function loadPosts(filter = "") {
       //postEl.onclick = `location.href='/posts/${post.id}';`
       // postEl.className = "post-item";//<p>${post.content}</p>
       // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
-      postEl.innerHTML = `<div class="post-item" onclick="location.href='/posts.html?id=${post.id}'"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}...</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
-      postList.appendChild(postEl);
+      postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}...</p><button class="read-more" onclick="location.href='/posts.html?id=${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+      postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
     });
 }
 
