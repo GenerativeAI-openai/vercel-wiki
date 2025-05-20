@@ -76,14 +76,7 @@ async function loadPosts(filter = "") {
       const postEl = document.createElement("div");
       postEl.onclick = `location.href='/posts/${post.id}';`
       postEl.className = "post-item";//<p>${post.content}</p>
-      postEl.innerHTML = simpleMarkdownToHTML(`
-        <h3>${post.title}</h3>
-        ${
-          post.editable
-            ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`
-            : ""
-        }
-      `);
+      postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p>${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
       postList.appendChild(postEl);
     });
 }
