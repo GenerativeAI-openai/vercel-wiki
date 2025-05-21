@@ -12,6 +12,24 @@ function simpleMarkdownToHTML(text) {
     .replace(/\n/g, '<br>');
 }
 
+function htmlToSimpleMarkdown(html) {
+  return html
+    .replace(/<h3>(.*?)<\/h3>/gim, '### $1')
+    .replace(/<h2>(.*?)<\/h2>/gim, '## $1')
+    .replace(/<h1>(.*?)<\/h1>/gim, '# $1')
+
+    .replace(/<li>(.*?)<\/li>/gim, '* $1')
+
+    .replace(/<strong>(.*?)<\/strong>/gim, '**$1**')
+    .replace(/<em>(.*?)<\/em>/gim, '*$1*')
+
+    .replace(/<del>(.*?)<\/del>/gim, '~~$1~~')
+
+    .replace(/<hr\s*\/?>/gim, '---')
+
+    .replace(/<br\s*\/?>/gim, '\n');
+}
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
@@ -77,7 +95,7 @@ async function loadPosts(filter = "") {
       //postEl.onclick = `location.href='/posts/${post.id}';`
       // postEl.className = "post-item";//<p>${post.content}</p>
       // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
-      postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}...</p><button class="read-more" onclick="location.href='/posts.html?id=${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+      postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/posts.html?id=${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
       postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
     });
 }
