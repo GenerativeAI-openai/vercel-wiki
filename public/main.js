@@ -103,7 +103,7 @@ async function loadPosts(filter = "") {
 window.editPost = (id, title, content) => {
   currentEditId = id;
   titleInput.value = title;
-  contentInput.value = content;
+  contentInput.value = htmlToSimpleMarkdown(content);
   const editor = document.getElementById("editor");
   editor.style.display = "block";
 };
