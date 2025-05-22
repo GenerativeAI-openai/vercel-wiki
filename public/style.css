@@ -103,3 +103,44 @@ textarea {
   font-color: white;
   display: none;
 }
+
+
+.login-menu {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+}
+.login-button {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.login-dropdown {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 0.3rem;
+  min-width: 160px;
+  z-index: 10;
+}
+.login-menu:hover .login-dropdown {
+  display: block;
+}
+.login-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 8px;
+  cursor: pointer;
+}
+.login-option:hover {
+  background-color: #f0f0f0;
+}
+.login-option img {
+  width: 18px;
+  height: 18px;
+}
