@@ -56,6 +56,7 @@ const contentInput = document.getElementById("contentInput");
 const saveBtn = document.getElementById("saveBtn");
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
+let canThisUserEdit = false
 
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
@@ -84,7 +85,7 @@ async function loadPosts(filter = "") {
   });
   const posts = await res.json();
   postList.innerHTML = "";
-  const canThisUserEdit = posts?.[0].editable
+  canThisUserEdit = posts?.[0].editable
   if (canThisUserEdit) {
     document.getElementById("editor").style.display = "block";
   }
@@ -112,7 +113,7 @@ saveBtn.addEventListener("click", async () => {
   const title = titleInput.value.trim();
   const content = contentInput.value.trim();
   if (!title || !content) return alert("제목과 내용을 입력해주세요.");
-  if (true) {
+  if (canThisUserEdit) {
   const endpoint = currentEditId ? `/api/posts/${currentEditId}` : `/api/posts`;
   const method = currentEditId ? "PUT" : "POST";
 
@@ -134,6 +135,8 @@ saveBtn.addEventListener("click", async () => {
   titleInput.value = "";
   contentInput.value = "";
   await loadPosts();
+  } else {
+    alert("권한 없음")
   }
 });
 
