@@ -26,7 +26,7 @@ export default async function handler(req, res) {
   let uid = null;
 
   try {
-    if (res.method != "GET") {
+    if (req.method != "GET") {
       if (token) {
         const decoded = await admin.auth().verifyIdToken(token);
         uid = decoded.uid;
