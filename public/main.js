@@ -208,3 +208,22 @@ document.addEventListener("DOMContentLoaded", () => {
   if (italicBtn) italicBtn.addEventListener("click", () => wrapSelectionWith("italic"));
   if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
 });
+
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const googleBtn = document.getElementById("googleLogin");
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then(result => {
+          console.log("로그인 성공:", result.user);
+        })
+        .catch(error => {
+          console.error("로그인 실패:", error);
+        });
+    });
+  }
+});
