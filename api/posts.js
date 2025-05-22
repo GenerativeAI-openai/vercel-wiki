@@ -27,12 +27,14 @@ export default async function handler(req, res) {
 
   if (token) {
     try {
-      if (res.method != "GET") {
+      // if (res.method != "GET") {
+      //   const decoded = await admin.auth().verifyIdToken(token);
+      //   uid = decoded.uid;
+      // } else {
+      //   uid = "NA";
+      // }
         const decoded = await admin.auth().verifyIdToken(token);
         uid = decoded.uid;
-      } else {
-        uid = "NA";
-      }
     } catch (err) {
       return res.status(401).json({ error: "Unauthorized" });
     }
