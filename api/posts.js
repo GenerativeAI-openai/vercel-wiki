@@ -25,19 +25,17 @@ export default async function handler(req, res) {
   const token = req.headers.authorization?.split("Bearer ")[1] || null;
   let uid = null;
 
-  if (token) {
-    try {
-      // if (res.method != "GET") {
-      //   const decoded = await admin.auth().verifyIdToken(token);
-      //   uid = decoded.uid;
-      // } else {
-      //   uid = "NA";
-      // }
+  try {
+    if (res.method != "GET") {
+      if (token) {
         const decoded = await admin.auth().verifyIdToken(token);
         uid = decoded.uid;
-    } catch (err) {
-      return res.status(401).json({ error: "Unauthorized" });
+      }
+    } else {
+      uid = "NA";
     }
+  } catch (err) {
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   if (req.method === "GET") {
