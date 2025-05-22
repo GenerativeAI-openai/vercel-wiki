@@ -62,8 +62,8 @@ function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
     currentToken = await currentUser.getIdToken();
-    await loadPosts();
   });
+  await loadPosts();
 }
 
 onAuthStateChanged(auth, async (user) => {
@@ -71,9 +71,9 @@ onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     currentToken = await user.getIdToken();
     await loadPosts();
-  } else {
-    loginAndLoad();
-  }
+  } //else {
+    //loginAndLoad();
+  //}
 });
 
 async function loadPosts(filter = "") {
@@ -177,8 +177,9 @@ function updateFontControls() {
 }
 
 document.addEventListener("DOMContentLoaded", updateFontControls);
-
-
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadPosts();
+});
 
 function wrapSelectionWith(tag) {
   const textarea = document.getElementById("contentInput");
@@ -207,4 +208,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if (boldBtn) boldBtn.addEventListener("click", () => wrapSelectionWith("bold"));
   if (italicBtn) italicBtn.addEventListener("click", () => wrapSelectionWith("italic"));
   if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const googleBtn = document.getElementById("googleLogin");
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then(result => {
+          console.log("로그인 성공:", result.user);
+        })
+        .catch(error => {
+          console.error("로그인 실패:", error);
+        });
+    });
+  }
 });
