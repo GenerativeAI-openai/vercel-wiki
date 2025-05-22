@@ -176,7 +176,7 @@ function updateFontControls() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", updateFontControls);
+//document.addEventListener("DOMContentLoaded", updateFontControls);
 
 
 
@@ -208,8 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (italicBtn) italicBtn.addEventListener("click", () => wrapSelectionWith("italic"));
   if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
 });
-
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const googleBtn = document.getElementById("googleLogin");
