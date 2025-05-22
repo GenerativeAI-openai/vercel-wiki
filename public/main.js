@@ -62,8 +62,8 @@ function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
     currentToken = await currentUser.getIdToken();
+    await loadPosts();
   });
-  await loadPosts();
 }
 
 onAuthStateChanged(auth, async (user) => {
