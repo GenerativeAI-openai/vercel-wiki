@@ -40,7 +40,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzWZtDMzb4cNoauLA4NvmxqO6C_ot00AA",
-  authDomain: "wiki.kkomaweb.com",//"smssend-b82b3.firebaseapp.com"
+  authDomain: "smssend-b82b3.firebaseapp.com",//"smssend-b82b3.firebaseapp.com"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
