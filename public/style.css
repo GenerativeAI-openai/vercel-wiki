@@ -124,7 +124,7 @@ textarea {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-top: 0.3rem;
-  min-width: 260px;
+  min-width: 25px;
   z-index: 10;
 }
 .login-menu:hover .login-dropdown {
