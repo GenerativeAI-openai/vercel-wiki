@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (italicBtn) italicBtn.addEventListener("click", () => wrapSelectionWith("italic"));
   if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
 });
-document.getElementById("login-button").addEventListener("click", () => {
+document.getElementById("login-button").addEventListener("click", function () {
   if (document.getElementById("login-dropdown").style.display == "none") {
     document.getElementById("login-dropdown").style.display = "block"
   } else {
