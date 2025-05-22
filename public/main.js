@@ -209,7 +209,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (italicBtn) italicBtn.addEventListener("click", () => wrapSelectionWith("italic"));
   if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
 });
-
+document.getElementById("login-button").addEventListener("click", () => {
+  if (document.getElementById("login-dropdown").style.display == "none") {
+    document.getElementById("login-dropdown").style.display = "block"
+  } else {
+    document.getElementById("login-dropdown").style.display = "none"
+  }
+})
 document.addEventListener("DOMContentLoaded", () => {
   const googleBtn = document.getElementById("googleLogin");
   if (googleBtn) {
