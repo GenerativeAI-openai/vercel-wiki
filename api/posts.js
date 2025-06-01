@@ -26,12 +26,24 @@ export default async function handler(req, res) {
   let uid = null;
 
   try {
-    if (req.method != "GET") {
-      if (token) {
-        const decoded = await admin.auth().verifyIdToken(token);
-        uid = decoded.uid;
-      }
+    // if (req.method != "GET") {
+    //   if (token) {
+    //     const decoded = await admin.auth().verifyIdToken(token);
+    //     uid = decoded.uid;
+    //   }
+    // } else {
+    //   uid = "NA";
+    // }
+    if (token) {
+      const decoded = await admin.auth().verifyIdToken(token);
+      uid = decoded.uid;
     } else {
+      // if (req.method != "GET") {
+      //   const decoded = await admin.auth().verifyIdToken(token);
+      //   uid = decoded.uid;
+      // } else {
+      //   uid = "NA";
+      // }
       uid = "NA";
     }
       // if (token) {
