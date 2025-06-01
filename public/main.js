@@ -41,7 +41,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzWZtDMzb4cNoauLA4NvmxqO6C_ot00AA",
-  authDomain: "smssend-b82b3.firebaseapp.com",//"smssend-b82b3.firebaseapp.com"
+  authDomain: "auth.wiki.kkomaweb.com",//"smssend-b82b3.firebaseapp.com"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -221,20 +221,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   const googleBtn = document.getElementById("googleLogin");
   if (googleBtn) {
     googleBtn.addEventListener("click", () => {
-      // const auth = getAuth();
-      // const provider = new GoogleAuthProvider();
-      // signInWithRedirect(auth, provider)
-      //   .then(result => {
-      //     console.log("로그인 성공:", result.user);
-      //   })
-      //   .catch(error => {
-      //     console.error("로그인 실패:", error);
-      //   });
-    signInWithPopup(auth, provider).then(async (result) => {
-      currentUser = result.user;
-      currentToken = await currentUser.getIdToken();
-      await loadPosts();
-    });
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      signInWithRedirect(auth, provider)
+        .then(result => {
+          console.log("로그인 성공:", result.user);
+        })
+        .catch(error => {
+          console.error("로그인 실패:", error);
+        });
+    // signInWithPopup(auth, provider).then(async (result) => {
+    //   currentUser = result.user;
+    //   currentToken = await currentUser.getIdToken();
+    //   await loadPosts();
+    // });
     });
   }
 });
