@@ -26,18 +26,18 @@ export default async function handler(req, res) {
   let uid = null;
 
   try {
-    // if (req.method != "GET") {
-    //   if (token) {
-    //     const decoded = await admin.auth().verifyIdToken(token);
-    //     uid = decoded.uid;
-    //   }
-    // } else {
-    //   uid = "NA";
-    // }
+    if (req.method != "GET") {
       if (token) {
         const decoded = await admin.auth().verifyIdToken(token);
         uid = decoded.uid;
       }
+    } else {
+      uid = "NA";
+    }
+      // if (token) {
+      //   const decoded = await admin.auth().verifyIdToken(token);
+      //   uid = decoded.uid;
+      // }
   } catch (err) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -59,7 +59,6 @@ export default async function handler(req, res) {
         editable: uid && uid === "Lu389LSbC7dVbAfm5DFF8w23b5I2",//data.owner,
       };
     });
-    console.log(`검색 결과 첫번째 항목: ${posts?.[0]}`)
     return res.status(200).json(posts);
   }
 
