@@ -97,7 +97,11 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: "Login required" });
     }
     const { title, content } = req.body;
-    const docRef = await db.collection("posts").add({
+    const existingDoc = await db.collection("posts").doc(title).get();
+    if (existingDoc.exists) {
+      return res.status(400).json({error: "existing title"});
+    }
+    const docRef = await db.collection("posts").doc(title).set({
       title,
       content,
       owner: uid,
