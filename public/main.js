@@ -71,13 +71,13 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
     currentToken = await user.getIdToken();
-    await loadPosts();
+    await loadPosts("", true);
   } else {
-    await loadPosts();
+    await loadPosts("", true);
   }
 });
 
-async function loadPosts(filter = "") {
+async function loadPosts(filter = "", isItFirstRequest = false) {
   // console.log(`검색어: ${filter}`)
   const res = await fetch("/api/posts", {
     headers: {
@@ -85,21 +85,39 @@ async function loadPosts(filter = "") {
     },
   });
   const posts = await res.json();
-  postList.innerHTML = "";
+  if (isItFirstRequest) {
+    postList.innerHTML = "<h1>최근 글</h1>";
+  } else {
+    postList.innerHTML = "";
+  }
   canThisUserEdit = posts?.[0].editable
   if (canThisUserEdit) {
     document.getElementById("editor").style.display = "block";
   }
-  posts
-    .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
-    .forEach((post) => {
-      const postEl = document.createElement("div");
-      //postEl.onclick = `location.href='/posts/${post.id}';`
-      // postEl.className = "post-item";//<p>${post.content}</p>
-      // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
-      postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/posts.html?id=${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
-      postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
-    });
+  if (isItFirstRequest) {
+    posts
+      .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
+      .slice(0, 5)
+      .forEach((post) => {
+        const postEl = document.createElement("div");
+        //postEl.onclick = `location.href='/posts/${post.id}';`
+        // postEl.className = "post-item";//<p>${post.content}</p>
+        // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
+        postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/posts.html?id=${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+        postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+      });
+  } else {
+    posts
+      .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
+      .forEach((post) => {
+        const postEl = document.createElement("div");
+        //postEl.onclick = `location.href='/posts/${post.id}';`
+        // postEl.className = "post-item";//<p>${post.content}</p>
+        // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
+        postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/posts.html?id=${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+        postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+      });
+  }
 }
 
 window.editPost = (id, title, content) => {
