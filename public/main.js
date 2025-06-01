@@ -62,6 +62,7 @@ let canThisUserEdit = false
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
+    console.log(reslt)
     currentToken = await currentUser.getIdToken();
     await loadPosts();
   });
@@ -71,6 +72,10 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
     currentToken = await user.getIdToken();
+    document.querySelector(".login-button").style.display = "none";
+    document.querySelector(".login-dropdown").style.display = "none";
+    // document.querySelector(".google-profile-image").src = currentUser
+    // document.querySelector(".google-profile-image").style.display = "block";
     await loadPosts("", true);
   } else {
     await loadPosts("", true);
