@@ -62,7 +62,7 @@ let canThisUserEdit = false
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
-    console.log(reslt)
+    // console.log(reslt)
     currentToken = await currentUser.getIdToken();
     await loadPosts();
   });
@@ -74,8 +74,18 @@ onAuthStateChanged(auth, async (user) => {
     currentToken = await user.getIdToken();
     document.querySelector(".login-button").style.display = "none";
     document.querySelector(".login-dropdown").style.display = "none";
-    // document.querySelector(".google-profile-image").src = currentUser
-    // document.querySelector(".google-profile-image").style.display = "block";
+    document.querySelector(".google-profile-image").src = currentUser.photoURL
+    document.querySelector(".google-profile-image").style.display = "block";
+    // document.getElementById("googleLogin").style.display = "none"
+    // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
+    // document.getElementById("logout").style.width = "50px"
+    // document.querySelector(".google-profile-image").addEventListener("click", function () {
+    //   if (document.querySelector(".login-dropdown").style.display == "none") {
+    //     document.querySelector(".login-dropdown").style.display = "block"
+    //   } else {
+    //     document.querySelector(".login-dropdown").style.display = "none"
+    //   }
+    // }
     await loadPosts("", true);
   } else {
     await loadPosts("", true);
@@ -242,6 +252,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (strikeBtn) strikeBtn.addEventListener("click", () => wrapSelectionWith("strike"));
 });
 document.querySelector(".login-button").addEventListener("click", function () {
+  // document.querySelector(".login-dropdown").innerHTML = `<div class="login-option" id="googleLogin"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" /></div>`
+  // document.querySelector(".login-dropdown").textContent = ""
+  // document.getElementById("googleLogin").style.display = "block"
   if (document.querySelector(".login-dropdown").style.display == "none") {
     document.querySelector(".login-dropdown").style.display = "block"
   } else {
