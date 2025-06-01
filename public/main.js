@@ -72,9 +72,9 @@ onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     currentToken = await user.getIdToken();
     await loadPosts();
-  } //else {
-    //loginAndLoad();
-  //}
+  } else {
+    await loadPosts();
+  }
 });
 
 async function loadPosts(filter = "") {
