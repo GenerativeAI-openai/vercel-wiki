@@ -186,9 +186,9 @@ function updateFontControls() {
 }
 
 document.addEventListener("DOMContentLoaded", updateFontControls);
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadPosts();
-});
+// document.addEventListener("DOMContentLoaded", async () => {
+//   await loadPosts();
+// });
 
 function wrapSelectionWith(tag) {
   const textarea = document.getElementById("contentInput");
