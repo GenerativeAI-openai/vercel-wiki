@@ -9,6 +9,7 @@ function simpleMarkdownToHTML(text) {
     .replace(/\*(.*?)\*/gim, '<em>$1</em>')
     .replace(/~~(.*?)~~/gim, '<del>$1</del>')
     .replace(/^---$/gim, '<hr>')
+    .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
     .replace(/\n/g, '<br>');
 }
 
@@ -26,7 +27,7 @@ function htmlToSimpleMarkdown(html) {
     .replace(/<del>(.*?)<\/del>/gim, '~~$1~~')
 
     .replace(/<hr\s*\/?>/gim, '---')
-
+    .replace(/<blockquote>(.*?)<\/blockquote>/gim, '> $1')
     .replace(/<br\s*\/?>/gim, '\n');
 }
 
