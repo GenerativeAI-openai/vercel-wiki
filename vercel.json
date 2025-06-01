@@ -5,11 +5,11 @@
       "headers": [
         {
           "key": "Cross-Origin-Opener-Policy",
-          "value": ""
+          "value": "unsafe-none"
         },
         {
           "key": "Cross-Origin-Embedder-Policy",
-          "value": ""
+          "value": "unsafe-none"
         }
       ]
     }
