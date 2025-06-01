@@ -78,7 +78,7 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 async function loadPosts(filter = "") {
-  console.log(`검색어: ${filter}`)
+  // console.log(`검색어: ${filter}`)
   const res = await fetch("/api/posts", {
     headers: {
       Authorization: `Bearer ${currentToken}`,
@@ -113,7 +113,7 @@ window.editPost = (id, title, content) => {
 saveBtn.addEventListener("click", async () => {
   const title = titleInput.value.trim();
   const content = contentInput.value.trim();
-  if (!title || !content) return alert("제목과 내용을 입력해주세요.");
+  if (!title || !content) return alert("제목과 내용을 모두 입력하세요");
   if (canThisUserEdit) {
   const endpoint = currentEditId ? `/api/posts/${currentEditId}` : `/api/posts`;
   const method = currentEditId ? "PUT" : "POST";
@@ -126,9 +126,17 @@ saveBtn.addEventListener("click", async () => {
     },
     body: JSON.stringify({ title, content }),
   });
-
-  if (!res.ok) {
-    alert("저장에 실패했습니다.");
+{//(!res.ok) {
+  if (res.status == "405")
+    alert("저장에 실패했습니다");
+    return;
+  }
+  if (res.status == "403")
+    alert("권한 없음");
+    return;
+  }
+  if (res.status == "401")
+    alert("권한 없음");
     return;
   }
 
