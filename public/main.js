@@ -126,7 +126,7 @@ saveBtn.addEventListener("click", async () => {
     },
     body: JSON.stringify({ title, content }),
   });
-{//(!res.ok) {
+//(!res.ok) {
   if (res.status == "405") {
     alert("저장에 실패했습니다");
     return;
