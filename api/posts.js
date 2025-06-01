@@ -46,13 +46,22 @@ export default async function handler(req, res) {
       // }
       uid = "NA";
     }
-      // if (token) {
-      //   const decoded = await admin.auth().verifyIdToken(token);
-      //   uid = decoded.uid;
-      // }
   } catch (err) {
-    return res.status(401).json({ error: "Unauthorized" });
+    uid = "NA";
+    //return res.status(401).json({ error: "Unauthorized" });
   }
+    // if (token) {
+    //   const decoded = await admin.auth().verifyIdToken(token);
+    //   uid = decoded.uid;
+    // } else {
+    //   // if (req.method != "GET") {
+    //   //   const decoded = await admin.auth().verifyIdToken(token);
+    //   //   uid = decoded.uid;
+    //   // } else {
+    //   //   uid = "NA";
+    //   // }
+    //   uid = "NA";
+    // }
 
   if (req.method === "GET") {
     
