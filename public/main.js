@@ -127,15 +127,15 @@ saveBtn.addEventListener("click", async () => {
     body: JSON.stringify({ title, content }),
   });
 {//(!res.ok) {
-  if (res.status == "405")
+  if (res.status == "405") {
     alert("저장에 실패했습니다");
     return;
   }
-  if (res.status == "403")
+  if (res.status == "403") {
     alert("권한 없음");
     return;
   }
-  if (res.status == "401")
+  if (res.status == "401") {
     alert("권한 없음");
     return;
   }
