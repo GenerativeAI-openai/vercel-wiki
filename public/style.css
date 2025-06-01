@@ -126,8 +126,6 @@ textarea {
   margin-top: 0.3rem;
   min-width: 25px;
   z-index: 10;
-  color: black;
-  font-size: 12.5px;
 }
 .login-menu:hover .login-dropdown {
   display: block;
