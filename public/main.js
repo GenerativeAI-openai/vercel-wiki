@@ -37,7 +37,8 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithRedirect,
-  getRedirectResult
+  getRedirectResult,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -341,8 +342,8 @@ function updateUserUI(user) {
     profileImg.src = user.photoURL;
     profileImg.style.display = "block";
   }
-  document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
-  document.getElementById("logout").style.width = "50px"
+  document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout"><img src="https://cdn-icons-png.flaticon.com/512/992/992680.png"></div>`//`<div class="login-option" id="logout">로그아웃</div>`
+  document.getElementById("logout").style.width = "15px"
   document.getElementById("logout").addEventListener("click", function () {
     signOut(auth).then(() => {location.reload()})
   })
