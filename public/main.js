@@ -276,23 +276,16 @@ document.querySelector(".login-button").addEventListener("click", function () {
     document.querySelector(".login-dropdown").style.display = "none"
   }
 })
-document.addEventListener("DOMContentLoaded", async () => {
-  const googleBtn = document.getElementById("googleLogin");
-  if (googleBtn) {
-    googleBtn.addEventListener("click", () => {
-      const auth = getAuth();
-      const provider = new GoogleAuthProvider();
-      signInWithRedirect(auth, provider)
-        // .then(result => {
-        //   console.log("로그인 성공:", result.user);
-        // })
-        // .catch(error => {
-        //   console.error("로그인 실패:", error);
-        // });
+const googleBtn = document.getElementById("googleLogin");
+if (googleBtn) {
+  googleBtn.addEventListener("click", () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider)
   })
 };
-})
-getRedirectResult(auth)
+document.addEventListener("DOMContentLoaded", async () => {
+  getRedirectResult(auth)
   .then(async (result) => {
     if (result && result.user) {
       currentUser = result.user;
@@ -307,3 +300,4 @@ getRedirectResult(auth)
   .catch((error) => {
     console.error("로그인 실패:", error);
   });
+})
