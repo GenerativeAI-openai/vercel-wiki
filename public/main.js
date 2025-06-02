@@ -305,4 +305,5 @@ document.addEventListener("DOMContentLoaded", async () => {
           console.error("로그인 실패:", error);
         });
   }
-});
+};
+})
