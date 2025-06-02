@@ -324,6 +324,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentUser = user;
       currentToken = await user.getIdToken();
       updateUserUI(currentUser);
+    } else {
+      document.querySelector(".login-menu").style.display = "block"
     }
     await loadPosts("", true);
   });
