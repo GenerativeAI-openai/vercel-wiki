@@ -352,5 +352,5 @@ function updateUserUI(user) {
     } else {
       document.querySelector(".login-dropdown").style.display = "none"
     }
-  }
+  })
 }
