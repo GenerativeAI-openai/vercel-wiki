@@ -345,7 +345,7 @@ function updateUserUI(user) {
   document.getElementById("logout").style.width = "50px"
   document.getElementById("logout").addEventListener("click", function () {
     signOut(auth).then(() => {location.reload()})
-  }
+  })
   document.querySelector(".google-profile-image").addEventListener("click", function () {
     if (document.querySelector(".login-dropdown").style.display == "none") {
       document.querySelector(".login-dropdown").style.display = "block"
