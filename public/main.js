@@ -324,8 +324,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentUser = user;
       currentToken = await user.getIdToken();
       updateUserUI(currentUser);
-    } else {
-      document.querySelector(".login-menu").style.display = "block"
     }
     await loadPosts("", true);
   });
@@ -334,20 +332,25 @@ function updateUserUI(user) {
   const profileImg = document.querySelector(".google-profile-image");
   const loginBtn = document.querySelector(".login-button");
   const dropdown = document.querySelector(".login-dropdown");
-  document.querySelector(".google-profile-image").style.display = "block"
+  const googleLoginButton = document.getElementById("googleLogin");
+  // document.querySelector(".google-profile-image").style.display = "block"
   if (loginBtn) loginBtn.style.display = "none";
-  if (dropdown) dropdown.style.display = "none";
+  if (googleLoginButton) googleLoginButton.style.display = "none";
+  // if (dropdown) dropdown.style.display = "none";
   if (profileImg) {
     profileImg.src = user.photoURL;
     profileImg.style.display = "block";
   }
-  // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
-  // document.getElementById("logout").style.width = "50px"
-  // document.querySelector(".google-profile-image").addEventListener("click", function () {
-  //   if (document.querySelector(".login-dropdown").style.display == "none") {
-  //     document.querySelector(".login-dropdown").style.display = "block"
-  //   } else {
-  //     document.querySelector(".login-dropdown").style.display = "none"
-  //   }
-  // }
+  document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
+  document.getElementById("logout").style.width = "50px"
+  document.getElementById("logout").addEventListener("click", function () {
+    signOut(auth).then(() => {location.reload()})
+  }
+  document.querySelector(".google-profile-image").addEventListener("click", function () {
+    if (document.querySelector(".login-dropdown").style.display == "none") {
+      document.querySelector(".login-dropdown").style.display = "block"
+    } else {
+      document.querySelector(".login-dropdown").style.display = "none"
+    }
+  }
 }
