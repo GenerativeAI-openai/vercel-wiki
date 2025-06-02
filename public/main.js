@@ -172,6 +172,14 @@ saveBtn.addEventListener("click", async () => {
     alert("권한 없음");
     return;
   }
+  if (res.status == "400") {
+    alert("중복되는 제목입니다");
+    return;
+  }
+  if (res.status == "404") {
+    alert("저장에 실패했습니다");
+    return;
+  }
 
   currentEditId = null;
   titleInput.value = "";
