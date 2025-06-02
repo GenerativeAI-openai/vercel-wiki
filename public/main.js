@@ -42,7 +42,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzWZtDMzb4cNoauLA4NvmxqO6C_ot00AA",
-  authDomain: "smssend-b82b3.firebaseapp.com",
+  authDomain: "wiki.kkomaweb.com",//smssend-b82b3.firebaseapp.com
   databaseURL: "https://smssend-b82b3-default-rtdb.firebaseio.com",
   projectId: "smssend-b82b3",
   storageBucket: "smssend-b82b3.firebasestorage.app",
