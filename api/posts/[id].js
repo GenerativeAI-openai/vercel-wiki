@@ -54,7 +54,7 @@ export default async function handler(req, res) {
   }
 
   const { title, content } = req.body;
-  if (data.title != title) {
+  if (data.id != title) {
     const newDoc = await db.collection("posts").doc(title).get();
     if (newDoc.exists) {
       return res.status(400).json({ error: "중복되는 제목입니다" });
