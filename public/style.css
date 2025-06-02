@@ -109,6 +109,7 @@ textarea {
   position: absolute;
   top: 1rem;
   right: 1.5rem;
+  display: none;
 }
 .login-button {
   background: white;
