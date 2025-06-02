@@ -334,7 +334,7 @@ function updateUserUI(user) {
   const profileImg = document.querySelector(".google-profile-image");
   const loginBtn = document.querySelector(".login-button");
   const dropdown = document.querySelector(".login-dropdown");
-
+  document.querySelector(".google-profile-image").style.display = "block"
   if (loginBtn) loginBtn.style.display = "none";
   if (dropdown) dropdown.style.display = "none";
   if (profileImg) {
