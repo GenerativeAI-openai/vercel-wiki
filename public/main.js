@@ -1,5 +1,7 @@
 function simpleMarkdownToHTML(text) {
   return text
+    .replace(/^##### (.*$)/gim, '<h5>$1</h5>')
+    .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
     .replace(/^# (.*$)/gim, '<h1>$1</h1>')
@@ -14,17 +16,15 @@ function simpleMarkdownToHTML(text) {
 
 function htmlToSimpleMarkdown(html) {
   return html
+    .replace(/<h5>(.*?)<\/h5>/gim, '##### $1')
+    .replace(/<h4>(.*?)<\/h4>/gim, '#### $1')
     .replace(/<h3>(.*?)<\/h3>/gim, '### $1')
     .replace(/<h2>(.*?)<\/h2>/gim, '## $1')
     .replace(/<h1>(.*?)<\/h1>/gim, '# $1')
-
     .replace(/<li>(.*?)<\/li>/gim, '* $1')
-
     .replace(/<strong>(.*?)<\/strong>/gim, '**$1**')
     .replace(/<em>(.*?)<\/em>/gim, '*$1*')
-
     .replace(/<del>(.*?)<\/del>/gim, '~~$1~~')
-
     .replace(/<hr\s*\/?>/gim, '---')
     .replace(/<blockquote>(.*?)<\/blockquote>/gim, '> $1')
     .replace(/<br\s*\/?>/gim, '\n');
