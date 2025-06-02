@@ -75,29 +75,29 @@ function loginAndLoad() {
   });
 }
 
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUser = user;
-    currentToken = await user.getIdToken();
-    document.querySelector(".login-button").style.display = "none";
-    document.querySelector(".login-dropdown").style.display = "none";
-    document.querySelector(".google-profile-image").src = currentUser.photoURL
-    document.querySelector(".google-profile-image").style.display = "block";
-    // document.getElementById("googleLogin").style.display = "none"
-    // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
-    // document.getElementById("logout").style.width = "50px"
-    // document.querySelector(".google-profile-image").addEventListener("click", function () {
-    //   if (document.querySelector(".login-dropdown").style.display == "none") {
-    //     document.querySelector(".login-dropdown").style.display = "block"
-    //   } else {
-    //     document.querySelector(".login-dropdown").style.display = "none"
-    //   }
-    // }
-    await loadPosts("", true);
-  } else {
-    await loadPosts("", true);
-  }
-});
+// onAuthStateChanged(auth, async (user) => {
+//   if (user) {
+//     currentUser = user;
+//     currentToken = await user.getIdToken();
+//     document.querySelector(".login-button").style.display = "none";
+//     document.querySelector(".login-dropdown").style.display = "none";
+//     document.querySelector(".google-profile-image").src = currentUser.photoURL
+//     document.querySelector(".google-profile-image").style.display = "block";
+//     // document.getElementById("googleLogin").style.display = "none"
+//     // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
+//     // document.getElementById("logout").style.width = "50px"
+//     // document.querySelector(".google-profile-image").addEventListener("click", function () {
+//     //   if (document.querySelector(".login-dropdown").style.display == "none") {
+//     //     document.querySelector(".login-dropdown").style.display = "block"
+//     //   } else {
+//     //     document.querySelector(".login-dropdown").style.display = "none"
+//     //   }
+//     // }
+//     await loadPosts("", true);
+//   } else {
+//     await loadPosts("", true);
+//   }
+// });
 
 async function loadPosts(filter = "", isItFirstRequest = false) {
   // console.log(`검색어: ${filter}`)
@@ -284,20 +284,59 @@ if (googleBtn) {
     signInWithRedirect(auth, provider)
   })
 };
+// document.addEventListener("DOMContentLoaded", async () => {
+//   getRedirectResult(auth)
+//   .then(async (result) => {
+//     if (result && result.user) {
+//       currentUser = result.user;
+//       currentToken = await result.user.getIdToken();
+//       console.log("로그인 성공:", result.user);
+//       document.querySelector(".login-button").style.display = "none";
+//       document.querySelector(".login-dropdown").style.display = "none";
+//       document.querySelector(".google-profile-image").src = currentUser.photoURL
+//       document.querySelector(".google-profile-image").style.display = "block";
+//     }
+//   })
+//   .catch((error) => {
+//     console.error("로그인 실패:", error);
+//   });
+// })
+let redirectLoginHandled = false;
+
 document.addEventListener("DOMContentLoaded", async () => {
-  getRedirectResult(auth)
-  .then(async (result) => {
-    if (result && result.user) {
-      currentUser = result.user;
-      currentToken = await result.user.getIdToken();
-      console.log("로그인 성공:", result.user);
-      document.querySelector(".login-button").style.display = "none";
-      document.querySelector(".login-dropdown").style.display = "none";
-      document.querySelector(".google-profile-image").src = currentUser.photoURL
-      document.querySelector(".google-profile-image").style.display = "block";
+  await getRedirectResult(auth)
+    .then(async (result) => {
+      if (result && result.user) {
+        redirectLoginHandled = true;
+        currentUser = result.user;
+        currentToken = await result.user.getIdToken();
+        console.log("로그인 성공:", currentUser)
+        updateUserUI(currentUser);
+        await loadPosts("", true);
+      }
+    })
+    .catch((error) => {
+      console.error("로그인 실패:", error);
+    });
+  onAuthStateChanged(auth, async (user) => {
+    if (redirectLoginHandled) return;
+    if (user) {
+      currentUser = user;
+      currentToken = await user.getIdToken();
+      updateUserUI(currentUser);
     }
-  })
-  .catch((error) => {
-    console.error("로그인 실패:", error);
+    await loadPosts("", true);
   });
-})
+});
+function updateUserUI(user) {
+  const profileImg = document.querySelector(".google-profile-image");
+  const loginBtn = document.querySelector(".login-button");
+  const dropdown = document.querySelector(".login-dropdown");
+
+  if (loginBtn) loginBtn.style.display = "none";
+  if (dropdown) dropdown.style.display = "none";
+  if (profileImg) {
+    profileImg.src = user.photoURL;
+    profileImg.style.display = "block";
+  }
+}
