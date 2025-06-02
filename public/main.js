@@ -289,21 +289,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         // .catch(error => {
         //   console.error("로그인 실패:", error);
         // });
-      getRedirectResult(auth)
-        .then(async (result) => {
-          if (result && result.user) {
-            currentUser = result.user;
-            currentToken = await result.user.getIdToken();
-            console.log("로그인 성공:", result.user);
-            document.querySelector(".login-button").style.display = "none";
-            document.querySelector(".login-dropdown").style.display = "none";
-            document.querySelector(".google-profile-image").src = currentUser.photoURL
-            document.querySelector(".google-profile-image").style.display = "block";
-          }
-        })
-        .catch((error) => {
-          console.error("로그인 실패:", error);
-        });
   })
 };
 })
+getRedirectResult(auth)
+  .then(async (result) => {
+    if (result && result.user) {
+      currentUser = result.user;
+      currentToken = await result.user.getIdToken();
+      console.log("로그인 성공:", result.user);
+      document.querySelector(".login-button").style.display = "none";
+      document.querySelector(".login-dropdown").style.display = "none";
+      document.querySelector(".google-profile-image").src = currentUser.photoURL
+      document.querySelector(".google-profile-image").style.display = "block";
+    }
+  })
+  .catch((error) => {
+    console.error("로그인 실패:", error);
+  });
