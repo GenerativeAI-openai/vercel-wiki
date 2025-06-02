@@ -42,7 +42,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzWZtDMzb4cNoauLA4NvmxqO6C_ot00AA",
-  authDomain: "wiki.kkomaweb.com",//smssend-b82b3.firebaseapp.com
+  authDomain: "auth.kkomaweb.com",//smssend-b82b3.firebaseapp.com
   databaseURL: "https://smssend-b82b3-default-rtdb.firebaseio.com",
   projectId: "smssend-b82b3",
   storageBucket: "smssend-b82b3.firebasestorage.app",
@@ -76,27 +76,27 @@ function loginAndLoad() {
 }
 
 // onAuthStateChanged(auth, async (user) => {
-//   if (user) {
-//     currentUser = user;
-//     currentToken = await user.getIdToken();
-//     document.querySelector(".login-button").style.display = "none";
-//     document.querySelector(".login-dropdown").style.display = "none";
-//     document.querySelector(".google-profile-image").src = currentUser.photoURL
-//     document.querySelector(".google-profile-image").style.display = "block";
-//     // document.getElementById("googleLogin").style.display = "none"
-//     // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
-//     // document.getElementById("logout").style.width = "50px"
-//     // document.querySelector(".google-profile-image").addEventListener("click", function () {
-//     //   if (document.querySelector(".login-dropdown").style.display == "none") {
-//     //     document.querySelector(".login-dropdown").style.display = "block"
-//     //   } else {
-//     //     document.querySelector(".login-dropdown").style.display = "none"
-//     //   }
-//     // }
-//     await loadPosts("", true);
-//   } else {
-//     await loadPosts("", true);
-//   }
+  // if (user) {
+  //   currentUser = user;
+  //   currentToken = await user.getIdToken();
+  //   document.querySelector(".login-button").style.display = "none";
+  //   document.querySelector(".login-dropdown").style.display = "none";
+  //   document.querySelector(".google-profile-image").src = currentUser.photoURL
+  //   document.querySelector(".google-profile-image").style.display = "block";
+  //   document.getElementById("googleLogin").style.display = "none"
+    // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
+    // document.getElementById("logout").style.width = "50px"
+  //   document.querySelector(".google-profile-image").addEventListener("click", function () {
+  //     if (document.querySelector(".login-dropdown").style.display == "none") {
+  //       document.querySelector(".login-dropdown").style.display = "block"
+  //     } else {
+  //       document.querySelector(".login-dropdown").style.display = "none"
+  //     }
+  //   }
+  //   await loadPosts("", true);
+  // } else {
+  //   await loadPosts("", true);
+  // }
 // });
 
 async function loadPosts(filter = "", isItFirstRequest = false) {
@@ -339,4 +339,13 @@ function updateUserUI(user) {
     profileImg.src = user.photoURL;
     profileImg.style.display = "block";
   }
+  // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
+  // document.getElementById("logout").style.width = "50px"
+  // document.querySelector(".google-profile-image").addEventListener("click", function () {
+  //   if (document.querySelector(".login-dropdown").style.display == "none") {
+  //     document.querySelector(".login-dropdown").style.display = "block"
+  //   } else {
+  //     document.querySelector(".login-dropdown").style.display = "none"
+  //   }
+  // }
 }
