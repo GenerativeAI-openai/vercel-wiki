@@ -35,18 +35,46 @@ export default async function handler(req, res) {
   const postDoc = await postRef.get();
 
   if (!postDoc.exists) {
-    return res.status(404).json({ error: "Post not found" });
+    return res.status(404).json({ error: "게시물 없음" });
   }
 
   const data = postDoc.data();
-  if (data.owner !== uid && method != "GET") {
-    return res.status(403).json({ error: "Permission denied" });
+  if ("Lu389LSbC7dVbAfm5DFF8w23b5I2" != uid && method != "GET") {//data.owner
+    return res.status(403).json({ error: "권한 없음 });
   }
 
-  if (method === "PUT") {
-    const { title, content } = req.body;
+  // if (method === "PUT") {
+  //   const { title, content } = req.body;
+  //   await postRef.update({ title, content });
+  //   return res.status(200).json({ message: "Updated" });
+  // }
+  if (req.method === "PUT") {
+  if (!uid) {
+    return res.status(403).json({ error: "Login required" });
+  }
+
+  const { title, content } = req.body;
+  if (data.title != title) {
+    const newDoc = await db.collection("posts").doc(title).get();
+    if (newDoc.exists) {
+      return res.status(400).json({ error: "중복되는 제목입니다" });
+    }
+    await db.collection("posts").doc(title).set({
+      title: title,
+      content,
+      owner: uid,
+    });
+    await postRef.delete();
+  } else {
     await postRef.update({ title, content });
-    return res.status(200).json({ message: "Updated" });
+  }
+  // await db.collection("posts").doc(title).set({
+  //   title: title,
+  //   content,
+  //   owner: uid,
+  // });
+
+  return res.status(200).json({ success: true, id: title });
   }
 
   if (method === "DELETE") {
