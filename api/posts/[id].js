@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
   const data = postDoc.data();
   if ("Lu389LSbC7dVbAfm5DFF8w23b5I2" != uid && method != "GET") {//data.owner
-    return res.status(403).json({ error: "권한 없음 });
+    return res.status(403).json({ error: "권한 없음" });
   }
 
   // if (method === "PUT") {
