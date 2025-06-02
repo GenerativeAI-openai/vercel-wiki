@@ -36,7 +36,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
-  signInWithRedirect
+  signInWithRedirect,
+  getRedirectResult
 } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -282,17 +283,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
       signInWithRedirect(auth, provider)
-        .then(result => {
-          console.log("로그인 성공:", result.user);
+        // .then(result => {
+        //   console.log("로그인 성공:", result.user);
+        // })
+        // .catch(error => {
+        //   console.error("로그인 실패:", error);
+        // });
+      getRedirectResult(auth)
+        .then((result) => {
+          if (result && result.user) {
+            console.log("로그인 성공:", result.user);
+            document.querySelector(".login-button").style.display = "none";
+            document.querySelector(".login-dropdown").style.display = "none";
+            document.querySelector(".google-profile-image").src = result.user.photoURL
+            document.querySelector(".google-profile-image").style.display = "block";
+          }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("로그인 실패:", error);
         });
-    // signInWithPopup(auth, provider).then(async (result) => {
-    //   currentUser = result.user;
-    //   currentToken = await currentUser.getIdToken();
-    //   await loadPosts();
-    // });
-    });
   }
 });
