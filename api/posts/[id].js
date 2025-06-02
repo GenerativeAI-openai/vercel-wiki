@@ -55,6 +55,7 @@ export default async function handler(req, res) {
 
   const { title, content } = req.body;
   if (data.id != title) {
+    await postRef.delete();
     const newDoc = await db.collection("posts").doc(title).get();
     if (newDoc.exists) {
       return res.status(400).json({ error: "중복되는 제목입니다" });
@@ -64,7 +65,6 @@ export default async function handler(req, res) {
       content,
       owner: uid,
     });
-    await postRef.delete();
   } else {
     await postRef.update({ title, content });
   }
