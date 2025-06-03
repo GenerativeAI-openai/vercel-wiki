@@ -29,7 +29,40 @@ function htmlToSimpleMarkdown(html) {
     .replace(/<blockquote>(.*?)<\/blockquote>/gim, '> $1')
     .replace(/<br\s*\/?>/gim, '\n');
 }
+function choseong(txt) {
+  const allChoseongs = [
+    'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+    'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+  ];
+  let out = '';
+  for (let i = 0; i < txt.length; i++) {
+    const code = txt.charCodeAt(i);
+    if (code >= 0xac00 && code <= 0xd7a3) {
+      const uniVal = code - 0xac00;
+      const Cho = Math.floor(uniVal / (21 * 28));
+      out += allChoseongs[Cho];
+    } else {
+      out += txt[i];
+    }
+  }
+  return out;
+}
 
+//초성 + 문자열 검색
+//예: 'ㅇㄴ123' → '안녕123'만 매칭, 'ㅇㄴ2'는 제외
+function jaeum(keyword, list) {
+  const keywordChoseong = choseong(keyword);
+
+  return list.filter(word => {
+    const wordChoseong = choseong(word);
+    return word.includes(keyword) || wordChoseong.includes(keywordChoseong);
+  });
+}
+
+//한글 포함 여부 확인
+function hasHangul(txt) {
+  return /[\uAC00-\uD7A3]/.test(txt);
+}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
@@ -66,7 +99,8 @@ const saveBtn = document.getElementById("saveBtn");
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 let canThisUserEdit = false
-
+let postStartIndex = 0;
+let postEndIndex = 9;
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
@@ -76,31 +110,7 @@ function loginAndLoad() {
   });
 }
 
-// onAuthStateChanged(auth, async (user) => {
-  // if (user) {
-  //   currentUser = user;
-  //   currentToken = await user.getIdToken();
-  //   document.querySelector(".login-button").style.display = "none";
-  //   document.querySelector(".login-dropdown").style.display = "none";
-  //   document.querySelector(".google-profile-image").src = currentUser.photoURL
-  //   document.querySelector(".google-profile-image").style.display = "block";
-  //   document.getElementById("googleLogin").style.display = "none"
-    // document.querySelector(".login-dropdown").innerHTML += `<div class="login-option" id="logout">로그아웃</div>`
-    // document.getElementById("logout").style.width = "50px"
-  //   document.querySelector(".google-profile-image").addEventListener("click", function () {
-  //     if (document.querySelector(".login-dropdown").style.display == "none") {
-  //       document.querySelector(".login-dropdown").style.display = "block"
-  //     } else {
-  //       document.querySelector(".login-dropdown").style.display = "none"
-  //     }
-  //   }
-  //   await loadPosts("", true);
-  // } else {
-  //   await loadPosts("", true);
-  // }
-// });
-
-async function loadPosts(filter = "", isItFirstRequest = false) {
+async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex = 0, postEndIndex = 9) {
   // console.log(`검색어: ${filter}`)
   const res = await fetch("/api/posts", {
     headers: {
@@ -117,10 +127,11 @@ async function loadPosts(filter = "", isItFirstRequest = false) {
   if (canThisUserEdit) {
     document.getElementById("editor").style.display = "block";
   }
-  if (isItFirstRequest) {
+  // if (isItFirstRequest) {
+    // const matchedPosts = posts.filter(post => jaeum(filter, [post.title]).length > 0);
     posts
-      .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
-      .slice(0, 5)
+      .filter(post => jaeum(filter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
+      // .slice(0, 9)
       .forEach((post) => {
         const postEl = document.createElement("div");
         //postEl.onclick = `location.href='/posts/${post.id}';`
@@ -129,18 +140,18 @@ async function loadPosts(filter = "", isItFirstRequest = false) {
         postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
         postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
       });
-  } else {
-    posts
-      .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
-      .forEach((post) => {
-        const postEl = document.createElement("div");
-        //postEl.onclick = `location.href='/posts/${post.id}';`
-        // postEl.className = "post-item";//<p>${post.content}</p>
-        // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
-        postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
-        postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
-      });
-  }
+  // } else {
+  //   posts
+  //     .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
+  //     .forEach((post) => {
+  //       const postEl = document.createElement("div");
+  //       //postEl.onclick = `location.href='/posts/${post.id}';`
+  //       // postEl.className = "post-item";//<p>${post.content}</p>
+  //       // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
+  //       postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+  //       postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+  //     });
+  // }
 }
 
 window.editPost = (id, title, content) => {
@@ -215,6 +226,19 @@ function applyPostFormatting(postEl, post) {
   `);
 }
 
+function loadContents(list) {
+  list
+    .filter(post => jaeum(filter, [post.title]).length > 0)
+    .slice(postStartIndex, postEndIndex)
+    .forEach((post) => {
+      const postEl = document.createElement("div");
+      postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+      postList.appendChild(postEl);
+    });
+  postStartIndex += 10
+  postEndIndex += 10
+}
+
 function likePost(postId) {
   fetch('/api/posts?id=' + postId + '&like=true', { method: 'POST' })
     .then(() => {
@@ -233,7 +257,11 @@ function updateFontControls() {
     content.style.fontFamily = e.target.value;
   });
 }
-
+window.addEventListener("scroll", () => {
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+      loadContents();
+    }
+  });
 document.addEventListener("DOMContentLoaded", updateFontControls);
 // document.addEventListener("DOMContentLoaded", async () => {
 //   await loadPosts();
