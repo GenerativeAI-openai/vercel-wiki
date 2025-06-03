@@ -120,7 +120,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
     },
   });
   const posts = await res.json();
-  let contents = posts;
+  contents = posts;
   if (isItFirstRequest) {
     postList.innerHTML = "<h1>최근 글</h1>";
   } else {
