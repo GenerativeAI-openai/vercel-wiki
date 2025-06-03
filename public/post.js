@@ -1,6 +1,7 @@
 async function fetchPost() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
+  // const params = new URLSearchParams(window.location.search);
+  // const id = params.get("id");
+  const id = window.location.pathname.slice(1);
   if (!id) return;
 
   try {
@@ -18,14 +19,17 @@ async function fetchPost() {
 
 function simpleMarkdownToHTML(text) {
   return text
+    .replace(/^##### (.*$)/gim, '<h5>$1</h5>')
+    .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
     .replace(/^# (.*$)/gim, '<h1>$1</h1>')
     .replace(/^\* (.*$)/gim, '<li>$1</li>')
+    .replace(/^---$/gim, '<hr>')
+    .replace(/^\s*> (.*$)/gim, '<blockquote>$1</blockquote>')
     .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/gim, '<em>$1</em>')
     .replace(/~~(.*?)~~/gim, '<del>$1</del>')
-    .replace(/^---$/gim, '<hr>')
     .replace(/\n/g, '<br>');
 }
 
