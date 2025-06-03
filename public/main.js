@@ -101,6 +101,8 @@ const searchInput = document.getElementById("searchInput");
 let canThisUserEdit = false
 let postStartIndex = 0;
 let postEndIndex = 9;
+var contents;
+var searchFilter = "";
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
@@ -111,13 +113,14 @@ function loginAndLoad() {
 }
 
 async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex = 0, postEndIndex = 9) {
-  // console.log(`검색어: ${filter}`)
+  searchFilter = filter;
   const res = await fetch("/api/posts", {
     headers: {
       Authorization: `Bearer ${currentToken}`,
     },
   });
   const posts = await res.json();
+  let contents = posts;
   if (isItFirstRequest) {
     postList.innerHTML = "<h1>최근 글</h1>";
   } else {
@@ -143,6 +146,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
   } else {
     posts
       .filter(post => jaeum(filter, [post.title]).length > 0)
+      .slice(0, 5)
       .forEach((post) => {
         const postEl = document.createElement("div");
         //postEl.onclick = `location.href='/posts/${post.id}';`
@@ -285,6 +289,33 @@ function wrapSelectionWith(tag) {
   textarea.selectionStart = start;
   textarea.selectionEnd = end + wrapper.length * 2;
 }
+
+
+document.getElementById("searchInput").addEventListener("input", function () {
+  //<button class="recommend" style="width: 268px;height: 35px;background-color: white;border-radius: 4px;border: none;margin-top: 10px;text-align: center;">공룡</button>
+  document.querySelector(".recommend").forEach((El) => {
+    El.remove
+  })
+  const div = document.querySelector(".header-main-div")
+  contents
+    .filter(post => jaeum(searchFilter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
+    .slice(0, 5)
+    .forEach((post) => {
+      const postEl = document.createElement("button");
+      postEl.onclick = `document.getElementById("searchInput").value = ${post.title}`
+      postEl.style.width = "268px";
+      postEl.style.height = "35px";
+      postEl.style.backgroundColor = "white";
+      postEl.style.borderRadius = "4px";
+      postEl.style.border = "none";
+      postEl.style.marginTop = "10px";
+      postEl.style.textAlign = "center";
+      postEl.className = "recommend";
+      postEl.textContent = post.title;
+      div.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+  });
+})
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const boldBtn = document.getElementById("boldBtn");
