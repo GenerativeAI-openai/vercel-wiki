@@ -293,7 +293,7 @@ function wrapSelectionWith(tag) {
 
 document.getElementById("searchInput").addEventListener("input", function () {
   //<button class="recommend" style="width: 268px;height: 35px;background-color: white;border-radius: 4px;border: none;margin-top: 10px;text-align: center;">공룡</button>
-  const recommend = document.querySelector(".recommend")
+  const recommend = document.querySelectorAll(".recommend")
   if (recommend) {
     recommend.forEach((El) => {
       El.remove()
@@ -314,7 +314,8 @@ document.getElementById("searchInput").addEventListener("input", function () {
       postEl.style.marginTop = "10px";
       postEl.style.textAlign = "center";
       postEl.className = "recommend";
-      postEl.textContent = post.title;
+      postEl.innerHTML = `공룡<br>`
+      // postEl.textContent = post.title;
       div.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
   });
 })
