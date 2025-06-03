@@ -291,34 +291,34 @@ function wrapSelectionWith(tag) {
 }
 
 
-document.getElementById("searchInput").addEventListener("input", function () {
-  //<button class="recommend" style="width: 268px;height: 35px;background-color: white;border-radius: 4px;border: none;margin-top: 10px;text-align: center;">공룡</button>
-  const recommend = document.querySelectorAll(".recommend")
-  if (recommend) {
-    recommend.forEach((El) => {
-      El.remove()
-    })
-  }
-  const div = document.querySelector(".header-main-div")
-  contents
-    .filter(post => jaeum(searchFilter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
-    .slice(0, 5)
-    .forEach((post) => {
-      const postEl = document.createElement("button");
-      postEl.onclick = `document.getElementById("searchInput").value = ${post.title}`
-      postEl.style.width = "268px";
-      postEl.style.height = "35px";
-      postEl.style.backgroundColor = "white";
-      postEl.style.borderRadius = "4px";
-      postEl.style.border = "none";
-      postEl.style.marginTop = "10px";
-      postEl.style.textAlign = "center";
-      postEl.className = "recommend";
-      postEl.innerHTML = `공룡<br>`
-      // postEl.textContent = post.title;
-      div.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
-  });
-})
+// document.getElementById("searchInput").addEventListener("input", function () {
+//   //<button class="recommend" style="width: 268px;height: 35px;background-color: white;border-radius: 4px;border: none;margin-top: 10px;text-align: center;">공룡</button>
+//   const recommend = document.querySelectorAll(".recommend")
+//   if (recommend) {
+//     recommend.forEach((El) => {
+//       El.remove()
+//     })
+//   }
+//   const div = document.querySelector(".header-main-div")
+//   contents
+//     .filter(post => jaeum(searchFilter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
+//     .slice(0, 5)
+//     .forEach((post) => {
+//       const postEl = document.createElement("button");
+//       postEl.onclick = `document.getElementById("searchInput").value = ${post.title}`
+//       postEl.style.width = "268px";
+//       postEl.style.height = "35px";
+//       postEl.style.backgroundColor = "white";
+//       postEl.style.borderRadius = "4px";
+//       postEl.style.border = "none";
+//       postEl.style.marginTop = "10px";
+//       postEl.style.textAlign = "center";
+//       postEl.className = "recommend";
+//       postEl.innerHTML = `공룡<br>`
+//       // postEl.textContent = post.title;
+//       div.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+//   });
+// })
 
 
 document.addEventListener("DOMContentLoaded", () => {
