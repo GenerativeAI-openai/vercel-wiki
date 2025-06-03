@@ -131,7 +131,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
     // const matchedPosts = posts.filter(post => jaeum(filter, [post.title]).length > 0);
     posts
       .filter(post => jaeum(filter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
-      .slice(0, 4)
+      .slice(0, 5)
       .forEach((post) => {
         const postEl = document.createElement("div");
         //postEl.onclick = `location.href='/posts/${post.id}';`
@@ -142,7 +142,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
       });
   } else {
     posts
-      .filter(post => post.title.toLowerCase().includes(filter.toLowerCase()))
+      .filter(post => jaeum(filter, [post.title]).length > 0)
       .forEach((post) => {
         const postEl = document.createElement("div");
         //postEl.onclick = `location.href='/posts/${post.id}';`
@@ -226,18 +226,18 @@ function applyPostFormatting(postEl, post) {
   `);
 }
 
-function loadContents(list) {
-  list
-    .filter(post => jaeum(filter, [post.title]).length > 0)
-    .slice(postStartIndex, postEndIndex)
-    .forEach((post) => {
-      const postEl = document.createElement("div");
-      postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
-      postList.appendChild(postEl);
-    });
-  postStartIndex += 10
-  postEndIndex += 10
-}
+// function loadContents(list) {
+//   list
+//     .filter(post => jaeum(filter, [post.title]).length > 0)
+//     .slice(postStartIndex, postEndIndex)
+//     .forEach((post) => {
+//       const postEl = document.createElement("div");
+//       postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button></div>`: ""}`;
+//       postList.appendChild(postEl);
+//     });
+//   postStartIndex += 10
+//   postEndIndex += 10
+// }
 
 function likePost(postId) {
   fetch('/api/posts?id=' + postId + '&like=true', { method: 'POST' })
@@ -257,11 +257,11 @@ function updateFontControls() {
     content.style.fontFamily = e.target.value;
   });
 }
-window.addEventListener("scroll", () => {
-  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
-      loadContents();
-    }
-  });
+// window.addEventListener("scroll", () => {
+//   if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+//       loadContents();
+//     }
+//   });
 document.addEventListener("DOMContentLoaded", updateFontControls);
 // document.addEventListener("DOMContentLoaded", async () => {
 //   await loadPosts();
