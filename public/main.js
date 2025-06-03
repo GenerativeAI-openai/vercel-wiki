@@ -101,8 +101,8 @@ const searchInput = document.getElementById("searchInput");
 let canThisUserEdit = false
 let postStartIndex = 0;
 let postEndIndex = 9;
-var contents;
-var searchFilter = "";
+// var contents;
+// var searchFilter = "";
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
     currentUser = result.user;
@@ -113,14 +113,14 @@ function loginAndLoad() {
 }
 
 async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex = 0, postEndIndex = 9) {
-  searchFilter = filter;
+  // searchFilter = filter;
   const res = await fetch("/api/posts", {
     headers: {
       Authorization: `Bearer ${currentToken}`,
     },
   });
   const posts = await res.json();
-  contents = posts;
+  // contents = posts;
   if (isItFirstRequest) {
     postList.innerHTML = "<h1>최근 글</h1>";
   } else {
