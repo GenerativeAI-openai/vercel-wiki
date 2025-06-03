@@ -293,9 +293,12 @@ function wrapSelectionWith(tag) {
 
 document.getElementById("searchInput").addEventListener("input", function () {
   //<button class="recommend" style="width: 268px;height: 35px;background-color: white;border-radius: 4px;border: none;margin-top: 10px;text-align: center;">공룡</button>
-  document.querySelector(".recommend").forEach((El) => {
-    El.remove
-  })
+  const recommend = document.querySelector(".recommend")
+  if (recommend) {
+    recommend.forEach((El) => {
+      El.remove()
+    })
+  }
   const div = document.querySelector(".header-main-div")
   contents
     .filter(post => jaeum(searchFilter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
