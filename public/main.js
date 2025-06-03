@@ -146,7 +146,6 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
   } else {
     posts
       .filter(post => jaeum(filter, [post.title]).length > 0)
-      .slice(0, 5)
       .forEach((post) => {
         const postEl = document.createElement("div");
         //postEl.onclick = `location.href='/posts/${post.id}';`
