@@ -147,3 +147,9 @@ textarea {
   width: 18px;
   height: 18px;
 }
+#like{
+      fill: black;
+}
+#like.active{
+      fill: red;
+}
