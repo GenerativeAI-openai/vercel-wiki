@@ -112,6 +112,15 @@ function loginAndLoad() {
   });
 }
 
+function showLoadingBar() {
+  let loadingBar = document.getElementById("loading");
+  loadingBar.style.display = "inline-block";
+}
+
+function hideLoadingBar() {
+  let loadingBar = document.getElementById("loading");
+  loadingBar.style.display = "none";
+}
 async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex = 0, postEndIndex = 9) {
   // searchFilter = filter;
   const res = await fetch("/api/posts", {
@@ -122,11 +131,12 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
   const posts = await res.json();
   // contents = posts;
   if (isItFirstRequest) {
-    postList.innerHTML = "<h1>최근 글</h1>";
+    postList.innerHTML = '<h1>최근 글</h1><br><div id="loading"></div>';
   } else {
-    postList.innerHTML = "";
+    postList.innerHTML = '<div id="loading"></div>';
   }
   canThisUserEdit = posts?.[0].editable
+  hideLoadingBar()
   if (canThisUserEdit) {
     document.getElementById("editor").style.display = "block";
   }
@@ -367,6 +377,7 @@ if (googleBtn) {
 let redirectLoginHandled = false;
 
 document.addEventListener("DOMContentLoaded", async () => {
+  showLoadingBar()
   await getRedirectResult(auth)
     .then(async (result) => {
       if (result && result.user) {
