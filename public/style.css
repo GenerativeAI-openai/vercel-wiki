@@ -153,3 +153,17 @@ textarea {
 #like.active{
       fill: red;
 } */
+ #loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: none;
+    width: 50px;
+    height: 50px;
+    border: 7px solid #027afa;/*rgba(2, 122, 250)*/;
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+    z-index: 9999;
+  }
