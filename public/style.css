@@ -167,3 +167,7 @@ textarea {
     -webkit-animation: spin 1s ease-in-out infinite;
     z-index: 9999;
   }
+
+#loading-gif {
+  left: 50%;
+}
