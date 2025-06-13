@@ -131,9 +131,9 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
   const posts = await res.json();
   // contents = posts;
   if (isItFirstRequest) {
-    postList.innerHTML = '<h1>최근 글</h1><br><div id="loading"></div>';
+    postList.innerHTML = '<h1>최근 글</h1><br><div id="loading-gif"></div>';
   } else {
-    postList.innerHTML = '<div id="loading"></div>';
+    postList.innerHTML = '<div id="loading-gif"></div>';
   }
   canThisUserEdit = posts?.[0].editable
   hideLoadingBar()
