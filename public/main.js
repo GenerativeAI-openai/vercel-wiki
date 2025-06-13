@@ -113,12 +113,12 @@ function loginAndLoad() {
 }
 
 function showLoadingBar() {
-  let loadingBar = document.getElementById("loading");
-  loadingBar.style.display = "inline-block";
+  let loadingBar = document.getElementById("loading-gif");
+  loadingBar.style.display = "block";//"inline-block";
 }
 
 function hideLoadingBar() {
-  let loadingBar = document.getElementById("loading");
+  let loadingBar = document.getElementById("loading-gif");
   loadingBar.style.display = "none";
 }
 async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex = 0, postEndIndex = 9) {
