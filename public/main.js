@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentUser = result.user;
         currentToken = await result.user.getIdToken();
         console.log("로그인 성공:", currentUser)
-        document.getElementById("review-section-link").style.display = "block";
+        // document.getElementById("review-section-link").style.display = "block";
         updateUserUI(currentUser);
         await loadPosts("", true);
       }
@@ -398,7 +398,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (user) {
       currentUser = user;
       currentToken = await user.getIdToken();
-      document.getElementById("review-section-link").style.display = "block";
+      // document.getElementById("review-section-link").style.display = "block";
       updateUserUI(currentUser);
     }
     await loadPosts("", true);
