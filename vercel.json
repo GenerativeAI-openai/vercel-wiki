@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/:id", "destination": "/posts.html" }
+    { "source": "/:id", "destination": "/posts.html" },
+    { "source": "/reviews", "destination": "/public/reviews.html" }
   ],
   "headers": [
     {
