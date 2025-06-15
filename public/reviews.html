@@ -181,12 +181,12 @@
         div.className = 'review-entry';
         const stars = '★'.repeat(entry.rating) + '☆'.repeat(5 - entry.rating);
         div.innerHTML = `
-          <div>${stars}</div>
+          <div style="color: gold;">${stars}</div>
           <div>${entry.comment}</div>
           <div class="email">작성자: ${entry.email}</div>
           <div>
-            <button class="confirm-btn ${entry.confirmed ? 'confirmed' : ''}" ${currentUser?.uid === 'Lu389LSbC7dVbAfm5DFF8w23b5I2' ? `onclick="toggleConfirm('${entry.id}', ${entry.confirmed})"` : 'disabled'}>
-              <strong>${entry.confirmed ? '확인 완료됨' : '확인 완료'}</strong>
+            <button class="confirm-btn ${entry.confirmed ? 'confirmed' : ''}" ${currentUser?.uid == "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? `onclick="toggleConfirm('${entry.id}', ${entry.confirmed})"` : 'disabled'}>
+              <strong>${entry.confirmed ? entry.uid != "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? '확인 완료됨' : '미확인으로 표시하기' : entry.uid != "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? '미확인' : '확인으로 표시하기'}</strong>
             </button>
           </div>
         `;
