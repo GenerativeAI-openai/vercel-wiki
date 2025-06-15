@@ -34,7 +34,7 @@
       margin: 0;
     }
     .login-menu {
-      position: relative;
+      position: absolute;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -232,6 +232,8 @@
       img.style.display = 'block';
       document.getElementById('write-review').style.display = 'block';
       const dropdown = document.querySelector('.login-dropdown');
+      const logoutBtn = document.getElementById("logout");
+      if (logoutBtn) logoutBtn.remove();
       dropdown.innerHTML += `<div class="login-option" id="logout"><img src="https://cdn-icons-png.flaticon.com/512/992/992680.png"></div>`;
       document.getElementById("logout").addEventListener("click", () => auth.signOut().then(() => location.reload()));
       img.addEventListener("click", () => {
