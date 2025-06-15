@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리뷰</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDzWZtDMzb4cNoauLA4NvmxqO6C_ot00AA",
+      authDomain: "auth.kkomaweb.com",
+      databaseURL: "https://smssend-b82b3-default-rtdb.firebaseio.com",
+      projectId: "smssend-b82b3",
+      storageBucket: "smssend-b82b3.firebasestorage.app",
+      messagingSenderId: "734888172114",
+      appId: "1:734888172114:web:0b2c99fee212f6487c1d8b",
+      measurementId: "G-J3VJPW92L2"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+  </script>
+  <style>
+    header {
+      background: #4caf50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .login-menu {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .google-profile-image {
+      display: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .login-button {
+      background: white;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .login-dropdown {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      z-index: 100;
+      padding: 6px;
+    }
+    .login-option img {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+    }
+    .review-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .star { font-size: 2em; color: gray; cursor: pointer; }
+    .star.selected { color: gold; }
+    .review-entry { border-top: 1px solid #ccc; padding: 1em 0; }
+    .review-entry .email { color: #888; font-size: 0.9em; margin-top: 0.3em; }
+    .confirm-btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 0.5em;
+    }
+    .confirmed {
+      background-color: #2e7d32 !important;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>꿈나무위키</h1>
+    <div class="login-menu">
+      <img class="google-profile-image" width="30" height="30">
+      <button class="login-button">로그인 ▾</button>
+      <div class="login-dropdown">
+        <div class="login-option" id="googleLogin">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="review-container">
+    <h2 style="margin-top:0">리뷰 작성</h2>
+    <div class="review-form" id="write-review" style="display:none">
+      <div id="star-container" style="margin-bottom: 1em;"></div>
+      <textarea id="comment" placeholder="의견을 입력하세요" rows="4" style="width: 100%; margin-bottom: 1em; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+      <button onclick="submitReview()">제출</button>
+    </div>
+    <div id="review-list"></div>
+  </div>
+  <script>
+    let currentUser = null;
+    let idToken = null;
+    let selectedRating = 0;
+
+    firebase.auth().getRedirectResult().then(async result => {
+      if (result.user) {
+        currentUser = result.user;
+        idToken = await currentUser.getIdToken();
+        updateUserUI();
+      }
+    }).catch(error => {
+      console.error("Redirect 로그인 실패:", error);
+    });
+
+    const stars = document.createElement('div');
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.innerHTML = '★';
+      star.classList.add('star');
+      star.dataset.value = i;
+      star.onclick = () => {
+        selectedRating = i;
+        document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+        for (let j = 1; j <= i; j++) {
+          document.querySelector(`.star[data-value="${j}"]`).classList.add('selected');
+        }
+      };
+      stars.appendChild(star);
+    }
+    document.getElementById('star-container').appendChild(stars);
+
+    async function submitReview() {
+      if (!currentUser || selectedRating === 0 || !comment.value.trim()) return alert('모든 항목을 입력하세요');
+      await fetch('/api/submitReview', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
+        body: JSON.stringify({
+          email: currentUser.email,
+          rating: selectedRating,
+          comment: comment.value.trim()
+        })
+      });
+      comment.value = '';
+      selectedRating = 0;
+      document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+      loadReviews();
+    }
+
+    async function loadReviews() {
+      // const res = await fetch('/api/getReviews', {
+      //   headers: idToken ? { 'Authorization': `Bearer ${idToken}` } : {}
+      // });
+      const res = await fetch('/api/getReviews');
+      const list = await res.json();
+      const container = document.getElementById('review-list');
+      container.innerHTML = '';
+      list.forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'review-entry';
+        const stars = '★'.repeat(entry.rating) + '☆'.repeat(5 - entry.rating);
+        div.innerHTML = `
+          <div>${stars}</div>
+          <div>${entry.comment}</div>
+          <div class="email">작성자: ${entry.email}</div>
+          <div>
+            <button class="confirm-btn ${entry.confirmed ? 'confirmed' : ''}" ${currentUser?.uid === 'Lu389LSbC7dVbAfm5DFF8w23b5I2' ? `onclick="toggleConfirm('${entry.id}', ${entry.confirmed})"` : 'disabled'}>
+              <strong>${entry.confirmed ? '확인 완료됨' : '확인 완료'}</strong>
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function toggleConfirm(id, confirmed) {
+      await fetch('/api/toggleConfirm', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
+        body: JSON.stringify({ id, confirmed: !confirmed })
+      });
+      loadReviews();
+    }
+
+    document.querySelector('.login-button').addEventListener('click', () => {
+      const dropdown = document.querySelector('.login-dropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.getElementById('googleLogin').addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithRedirect(provider);
+    });
+
+    auth.onAuthStateChanged(async user => {
+      if (!currentUser && user) {
+        currentUser = user;
+        idToken = await user.getIdToken();
+        updateUserUI();
+      }
+      loadReviews();
+    });
+
+    function updateUserUI() {
+      document.querySelector('.login-button').style.display = 'none';
+      const img = document.querySelector('.google-profile-image');
+      img.src = currentUser.photoURL;
+      img.style.display = 'block';
+      document.getElementById('write-review').style.display = 'block';
+      const dropdown = document.querySelector('.login-dropdown');
+      dropdown.innerHTML += `<div class="login-option" id="logout"><img src="https://cdn-icons-png.flaticon.com/512/992/992680.png"></div>`;
+      document.getElementById("logout").addEventListener("click", () => auth.signOut().then(() => location.reload()));
+      img.addEventListener("click", () => {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      });
+    }
+  </script>
+</body>
+</html>
