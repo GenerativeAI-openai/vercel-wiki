@@ -13,8 +13,14 @@ function simpleMarkdownToHTML(text) {
     .replace(/~~(.*?)~~/gim, '<del>$1</del>')
     .replace(/\n/g, '<br>');
 }
-function escapeJS(str) {
-  return JSON.stringify(str).slice(1, -1); // 따옴표 제거
+
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function htmlToSimpleMarkdown(html) {
@@ -66,6 +72,19 @@ function jaeum(keyword, list) {
 function hasHangul(txt) {
   return /[\uAC00-\uD7A3]/.test(txt);
 }
+
+function renderPost(post) {
+  const postEl = document.createElement("div");
+  postEl.innerHTML = `
+    <div class="post-item">
+      <h3>${post.title}</h3>
+      <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
+      <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
+      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button>` : ""}
+    </div>`;
+  postList.appendChild(postEl);
+}
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
@@ -143,43 +162,47 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
   if (canThisUserEdit) {
     document.getElementById("editor").style.display = "block";
   }
-  if (isItFirstRequest) {
-    // const matchedPosts = posts.filter(post => jaeum(filter, [post.title]).length > 0);
-    posts
-      .filter(post => jaeum(filter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
-      .slice(0, 5)
-      .forEach((post) => {
-        const postEl = document.createElement("div");
-        //postEl.onclick = `location.href='/posts/${post.id}';`
-        // postEl.className = "post-item";//<p>${post.content}</p>
-        postEl.innerHTML = `<div class="post-item">
-  <h3>${post.title}</h3>
-  <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
-  <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
-  ${post.editable ? `<button onclick="editPost('${post.id}', '${escapeJS(post.title)}', '${escapeJS(post.content)}')">수정</button>` : ""}
-</div>`;
-        // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
-        // postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick=\`editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)\`>수정</button></div>`: ""}`;
-        postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
-      });
-  } else {
-    posts
-      .filter(post => jaeum(filter, [post.title]).length > 0)
-      .forEach((post) => {
-        const postEl = document.createElement("div");
-        //postEl.onclick = `location.href='/posts/${post.id}';`
-        // postEl.className = "post-item";//<p>${post.content}</p>
-        postEl.innerHTML = `<div class="post-item">
-  <h3>${post.title}</h3>
-  <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
-  <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
-  ${post.editable ? `<button onclick="editPost('${post.id}', '${escapeJS(post.title)}', '${escapeJS(post.content)}')">수정</button>` : ""}
-</div>`;
-        // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
-        // postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick=\`editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)\`>수정</button></div>`: ""}`;
-        postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
-      });
-  }
+  posts
+  .filter(post => jaeum(filter, [post.title]).length > 0)
+  .slice(0, isItFirstRequest ? 5 : undefined)
+  .forEach(renderPost);
+//   if (isItFirstRequest) {
+//     // const matchedPosts = posts.filter(post => jaeum(filter, [post.title]).length > 0);
+//     posts
+//       .filter(post => jaeum(filter, [post.title]).length > 0)//post.title.toLowerCase().includes(filter.toLowerCase())
+//       .slice(0, 5)
+//       .forEach((post) => {
+//         const postEl = document.createElement("div");
+//         //postEl.onclick = `location.href='/posts/${post.id}';`
+//         // postEl.className = "post-item";//<p>${post.content}</p>
+//         postEl.innerHTML = `<div class="post-item">
+//   <h3>${post.title}</h3>
+//   <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
+//   <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
+//   ${post.editable ? `<button onclick="editPost('${post.id}', '${escapeJS(post.title)}', '${escapeJS(post.content)}')">수정</button>` : ""}
+// </div>`;
+//         // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
+//         // postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick=\`editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)\`>수정</button></div>`: ""}`;
+//         postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+//       });
+//   } else {
+//     posts
+//       .filter(post => jaeum(filter, [post.title]).length > 0)
+//       .forEach((post) => {
+//         const postEl = document.createElement("div");
+//         //postEl.onclick = `location.href='/posts/${post.id}';`
+//         // postEl.className = "post-item";//<p>${post.content}</p>
+//         postEl.innerHTML = `<div class="post-item">
+//   <h3>${post.title}</h3>
+//   <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
+//   <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
+//   ${post.editable ? `<button onclick="editPost('${post.id}', '${escapeJS(post.title)}', '${escapeJS(post.content)}')">수정</button>` : ""}
+// </div>`;
+//         // postEl.innerHTML = simpleMarkdownToHTML(`<h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(1, 50)}</p>${post.editable ? `<button onclick="editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)">수정</button>`: ""}`);
+//         // postEl.innerHTML = `<div class="post-item"><h3>${post.title}</h3><p style="font-size: 12px;">${post.content.slice(0, 50)}...</p><button class="read-more" onclick="location.href='/${post.id}'">더보기</button>${post.editable ? `<button onclick=\`editPost('${post.id}', \`${post.title}\`, \`${post.content}\`)\`>수정</button></div>`: ""}`;
+//         postList.appendChild(postEl);//onclick="location.href='/posts.html?id=${post.id}'"
+//       });
+//   }
 }
 
 window.editPost = (id, title, content) => {
