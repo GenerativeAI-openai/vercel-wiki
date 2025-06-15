@@ -84,7 +84,14 @@ function renderPost(post) {
     </div>`;
   postList.appendChild(postEl);
 }
-
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("edit-button")) {
+    const id = e.target.dataset.id;
+    const title = e.target.dataset.title;
+    const content = e.target.dataset.content;
+    editPost(id, title, content);
+  }
+});
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import {
   getAuth,
