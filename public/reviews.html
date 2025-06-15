@@ -175,6 +175,7 @@
       const res = await fetch('/api/getReviews');
       const list = await res.json();
       const container = document.getElementById('review-list');
+      let i = 0;
       container.innerHTML = '';
       list.forEach(entry => {
         const div = document.createElement('div');
@@ -182,15 +183,17 @@
         const stars = '★'.repeat(entry.rating) + '☆'.repeat(5 - entry.rating);
         div.innerHTML = `
           <div style="color: gold;">${stars}</div>
-          <div>${entry.comment}</div>
+          <div class="comment-${i}"></div>
           <div class="email">작성자: ${entry.email}</div>
           <div>
             <button class="confirm-btn ${entry.confirmed ? 'confirmed' : ''}" ${currentUser?.uid == "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? `onclick="toggleConfirm('${entry.id}', ${entry.confirmed})"` : 'disabled'}>
-              <strong>${entry.confirmed ? entry.uid != "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? '확인 완료됨' : '미확인으로 표시하기' : entry.uid != "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? '미확인' : '확인으로 표시하기'}</strong>
+              <strong>${entry.confirmed ? '확인 완료됨' : '확인 전'}</strong>
             </button>
           </div>
         `;
         container.appendChild(div);
+        document.querySelector(`.comment-${i}`).textContent = entry.comment;
+        i++
       });
     }
 
