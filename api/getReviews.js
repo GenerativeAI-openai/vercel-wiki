@@ -18,14 +18,14 @@ admin.initializeApp({
 const firestore = admin.firestore();
 
 export default async function handler(req, res) {
-  const token = req.headers.authorization?.split('Bearer ')[1] || null;
-  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  // const token = req.headers.authorization?.split('Bearer ')[1] || null;
+  // if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
-  try {
-    await admin.auth().verifyIdToken(token);
-  } catch {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
+  // try {
+  //   await admin.auth().verifyIdToken(token);
+  // } catch {
+  //   return res.status(401).json({ error: 'Invalid token' });
+  // }
 
   try {
     const snapshot = await firestore.collection('reviews').orderBy('timestamp', 'desc').get();
