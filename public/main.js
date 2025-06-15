@@ -153,6 +153,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
         //postEl.onclick = `location.href='/posts/${post.id}';`
         // postEl.className = "post-item";//<p>${post.content}</p>
         postEl.innerHTML = `<div class="post-item">
+  <h3>${post.title}</h3>
   <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
   <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
   ${post.editable ? `<button onclick="editPost('${post.id}', '${escapeJS(post.title)}', '${escapeJS(post.content)}')">수정</button>` : ""}
@@ -169,6 +170,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
         //postEl.onclick = `location.href='/posts/${post.id}';`
         // postEl.className = "post-item";//<p>${post.content}</p>
         postEl.innerHTML = `<div class="post-item">
+  <h3>${post.title}</h3>
   <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
   <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
   ${post.editable ? `<button onclick="editPost('${post.id}', '${escapeJS(post.title)}', '${escapeJS(post.content)}')">수정</button>` : ""}
