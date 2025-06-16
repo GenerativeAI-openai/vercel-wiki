@@ -184,11 +184,11 @@
       list.forEach(entry => {
         const div = document.createElement('div');
         div.className = 'review-entry';
-        const stars = '★'.repeat(entry.rating) + '☆'.repeat(5 - entry.rating);
+        const stars = '★'.repeat(entry.rating) + '☆'.repeat(5 - entry.rating);//<div class="email">작성자: ${entry.email}</div>
         div.innerHTML = `
           <div style="color: gold;">${stars}</div>
           <div class="comment-${i}"></div>
-          <div class="email">작성자: ${entry.email}</div>
+          <div class="email">작성자: (익명)</div>
           <div>
             <button class="confirm-btn ${entry.confirmed ? 'confirmed' : ''}" ${currentUser?.uid == "Lu389LSbC7dVbAfm5DFF8w23b5I2" ? `onclick="toggleConfirm('${entry.id}', ${entry.confirmed})"` : 'disabled'}>
               <strong>${entry.confirmed ? '확인 완료됨' : '확인 전'}</strong>
