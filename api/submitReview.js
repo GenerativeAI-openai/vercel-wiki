@@ -38,7 +38,7 @@ export default async function handler(req, res) {
   try {
     await firestore.collection('reviews').add({
       uid,
-      email,
+      // email,
       rating,
       comment,
       confirmed: false,
