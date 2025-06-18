@@ -80,7 +80,7 @@ function renderPost(post) {
       <h3>${post.title}</h3>
       <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
       <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
-      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button>` : ""}
+      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button><button class="del-button" data-id="${post.id}"">삭제</button>` : ""}
     </div>`;
   postList.appendChild(postEl);
 }
@@ -90,6 +90,10 @@ document.addEventListener("click", function (e) {
     const title = e.target.dataset.title;
     const content = e.target.dataset.content;
     editPost(id, title, content);
+  }
+  if (e.target.classList.contains("del-button")) {
+    const id = e.target.dataset.id;
+    delPost(id);
   }
 });
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -218,6 +222,17 @@ window.editPost = (id, title, content) => {
   contentInput.value = htmlToSimpleMarkdown(content);
   const editor = document.getElementById("editor");
   editor.style.display = "block";
+};
+
+window.delPost = (id) => {
+  const res = await fetch(`/api/posts/${id}`, {
+    method: "DELETE"
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${currentToken}`,
+    },
+    body: JSON.stringify({ id }),
+  })
 };
 
 saveBtn.addEventListener("click", async () => {
