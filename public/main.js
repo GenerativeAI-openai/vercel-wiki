@@ -80,7 +80,7 @@ function renderPost(post) {
       <h3>${post.title}</h3>
       <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
       <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
-      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button><button class="del-button" data-id="${post.id}"">삭제</button>` : ""}
+      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button><div><button class="del-button" data-id="${post.id}"">삭제</button>` : ""}
     </div>`;
   postList.appendChild(postEl);
 }
