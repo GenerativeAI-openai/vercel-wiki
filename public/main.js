@@ -224,15 +224,16 @@ window.editPost = (id, title, content) => {
   editor.style.display = "block";
 };
 
-window.delPost = (id) => {
+window.delPost = async (id) => {
   const res = await fetch(`/api/posts/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${currentToken}`,
     },
     body: JSON.stringify({ id }),
-  })
+  });
+  await loadPosts(); // 삭제 후 목록 새로고침
 };
 
 saveBtn.addEventListener("click", async () => {
