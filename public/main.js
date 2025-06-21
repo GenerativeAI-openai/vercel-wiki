@@ -92,7 +92,7 @@ function recommendTitleOnlick(title) {
 }
 
 function recommendRender(post) {
-  const recommend = document.queryselector("recommend")
+  const recommend = document.queryselector(".recommend")
   const recommendTitle = document.createElement("button")
   recommendTitle.className = "recommendTitle"
   recommendTitle.onclick = `recommendTitleOnlick("${post.title}")`
