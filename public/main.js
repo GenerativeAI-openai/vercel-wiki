@@ -85,10 +85,10 @@ function renderPost(post) {
   postList.appendChild(postEl);
 }
 
-function recommendTitleOnlick(title) {
+async function recommendTitleOnlick(title) {
   const searchInput = document.getElementById("searchInput");
   searchInput.value = title
-  loadposts(title)
+  await loadposts(title)
 }
 
 function recommendRender(post) {
