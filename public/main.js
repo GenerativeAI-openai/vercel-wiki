@@ -359,7 +359,7 @@ function likePost(postId) {
 //       loadContents();
 //     }
 //   });
-recommend.addEventListener('input', function() {
+searchInput.addEventListener('input', function() {
   if (searchInput.value != '') {
     recommend.innerHTML = ""
     contents
@@ -383,7 +383,7 @@ recommend.addEventListener('input', function() {
   //   recommend.style.display = "none"
   // }
 // })
-recommend.addEventListener('focusout', function() {
+searchInput.addEventListener('focusout', function() {
   recommend.style.display = "none"
   recommend.innerHTML = ""
 })
