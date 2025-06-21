@@ -96,7 +96,8 @@ function recommendRender(post) {
   const recommendTitle = document.createElement("button")
   recommendTitle.className = "recommendTitle"
   // recommendTitle.onclick = `recommendTitleOnlick("${post.title}")`
-  recommendTitle.onclick = () => recommendTitleOnlick(post.title)
+  // recommendTitle.onclick = () => recommendTitleOnlick(post.title)
+  recommendTitle.addEventListener("mousedown", () => recommendTitleOnlick(post.title))
   recommendTitle.textContent = post.title
   recommend.appendChild(recommendTitle) 
 }
