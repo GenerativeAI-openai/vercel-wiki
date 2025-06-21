@@ -84,6 +84,21 @@ function renderPost(post) {
     </div>`;
   postList.appendChild(postEl);
 }
+
+function recommendTitleOnlick(title) {
+  const searchInput = document.getElementById("searchInput");
+  searchInput.value = title
+  loadposts(title)
+}
+
+function recommendRender(post) {
+  const recommend = document.queryselector("recommend")
+  const recommendTitle = document.createElement("button")
+  recommendTitle.className = "recommendTitle"
+  recommendTitle.onclick = `recommendTitleOnlick("${post.title}")`
+  recommendTitle.textContent = post.title
+}
+
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-button")) {
     const id = e.target.dataset.id;
@@ -134,7 +149,7 @@ const searchInput = document.getElementById("searchInput");
 let canThisUserEdit = false
 let postStartIndex = 0;
 let postEndIndex = 9;
-// var contents;
+let contents = {};
 // var searchFilter = "";
 function loginAndLoad() {
   signInWithPopup(auth, provider).then(async (result) => {
@@ -162,6 +177,7 @@ async function loadPosts(filter = "", isItFirstRequest = false, postStartIndex =
     },
   });
   const posts = await res.json();
+  contents = posts;
   // contents = posts;
   if (isItFirstRequest) {
     postList.innerHTML = '<h1>최근 글</h1><br><div id="loading-gif"></div>';
@@ -336,6 +352,24 @@ function updateFontControls() {
 //       loadContents();
 //     }
 //   });
+
+document.addEventListener("click", function(e) {
+  const recommend = document.queryselector("recommend")
+  if (e.target.id == "searchInput") {
+    if (searchInput.value) {
+      contents
+      .filter(post => jaeum(filter, [post.title]).length > 0)
+      .slice(0, 5)
+      .forEach(recommendRender);
+      recommend.style.display = "block"
+    } else {
+      recommend.style.display = "none"
+    }
+  } else {
+    recommend.style.display = "none"
+  }
+})
+
 document.addEventListener("DOMContentLoaded", updateFontControls);
 // document.addEventListener("DOMContentLoaded", async () => {
 //   await loadPosts();
