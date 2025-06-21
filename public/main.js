@@ -359,7 +359,7 @@ function likePost(postId) {
 //       loadContents();
 //     }
 //   });
-recommend..addEventListener('input', function() {
+recommend.addEventListener('input', function() {
   if (searchInput.value != '') {
     recommend.innerHTML = ""
     contents
