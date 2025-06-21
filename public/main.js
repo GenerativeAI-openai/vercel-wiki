@@ -357,7 +357,7 @@ function likePost(postId) {
 //     }
 //   });
 recommend.addEventListener('focus', function() {
-  if (searchInput.value) {
+  if (searchInput.value != '') {
     recommend.innerHTML = ""
     contents
     .filter(post => jaeum(searchInput.value, [post.title]).length > 0)
@@ -368,7 +368,7 @@ recommend.addEventListener('focus', function() {
     recommend.style.display = "none"
   }
 })
-recommend.addEventListener('blur', function() {
+recommend.addEventListener('focusout', function() {
   recommend.style.display = "none"
   recommend.innerHTML = ""
 })
