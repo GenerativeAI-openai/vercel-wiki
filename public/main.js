@@ -88,7 +88,7 @@ function renderPost(post) {
 async function recommendTitleOnlick(title) {
   const searchInput = document.getElementById("searchInput");
   searchInput.value = title
-  await loadposts(title)
+  await loadPosts(title)
 }
 
 function recommendRender(post) {
