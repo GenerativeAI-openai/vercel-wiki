@@ -147,6 +147,18 @@ textarea {
   width: 18px;
   height: 18px;
 }
+.parent {
+  position: absolute;
+  top: 120px;         /* 원하는 만큼 위에서 띄움 */
+  left: 50%;         /* 가로 가운데 정렬 */
+  transform: translateX(-50%);
+  width: 300px;      /* 적당히 너비 지정 (원하는 값) */
+  background: #fefefe;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+  z-index: 999;
+}
 /* #like{
       fill: black;
 }
