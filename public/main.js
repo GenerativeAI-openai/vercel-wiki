@@ -80,7 +80,7 @@ function renderPost(post) {
       <h3>${post.title}</h3>
       <p style="font-size: 12px;">${post.content.slice(0, 50)}...</p>
       <button class="read-more" onclick="location.href='/${post.id}'">더보기</button>
-      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button><div><button class="del-button" data-id="${post.id}"">삭제</button>` : ""}
+      ${post.editable ? `<button class="edit-button" data-id="${post.id}" data-title="${escapeHTML(post.title)}" data-content="${escapeHTML(post.content)}">수정</button><div><button class="del-button" data-id="${post.id}">삭제</button>` : ""}
     </div>`;
   postList.appendChild(postEl);
 }
@@ -92,11 +92,13 @@ function recommendTitleOnlick(title) {
 }
 
 function recommendRender(post) {
-  const recommend = document.queryselector(".recommend")
+  const recommend = document.querySelector(".recommend")
   const recommendTitle = document.createElement("button")
   recommendTitle.className = "recommendTitle"
-  recommendTitle.onclick = `recommendTitleOnlick("${post.title}")`
+  // recommendTitle.onclick = `recommendTitleOnlick("${post.title}")`
+  recommendTitle.onclick = () => recommendTitleOnlick(post.title)
   recommendTitle.textContent = post.title
+  recommend.appendChild(recommendTitle) 
 }
 
 document.addEventListener("click", function (e) {
@@ -338,7 +340,7 @@ function likePost(postId) {
 }
 
 function updateFontControls() {
-  const content = document.getElementById("content");
+  const content = document.getElementById(".content");
   if (!content) return;
   document.getElementById("font-size").addEventListener("change", e => {
     content.style.fontSize = e.target.value;
@@ -354,11 +356,11 @@ function updateFontControls() {
 //   });
 
 document.addEventListener("click", function(e) {
-  const recommend = document.queryselector("recommend")
+  const recommend = document.querySelector("recommend")
   if (e.target.id == "searchInput") {
     if (searchInput.value) {
       contents
-      .filter(post => jaeum(filter, [post.title]).length > 0)
+      .filter(post => jaeum(searchInput.value, [post.title]).length > 0)
       .slice(0, 5)
       .forEach(recommendRender);
       recommend.style.display = "block"
