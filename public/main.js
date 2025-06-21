@@ -162,7 +162,10 @@ function loginAndLoad() {
     await loadPosts();
   });
 }
-
+function isInputFocused(inputId) {
+  const input = document.getElementById(inputId);
+  return document.activeElement === input;
+}
 function showLoadingBar() {
   let loadingBar = document.getElementById("loading-gif");
   loadingBar.style.display = "block";//"inline-block";
@@ -356,7 +359,7 @@ function likePost(postId) {
 //       loadContents();
 //     }
 //   });
-recommend.addEventListener('focus', function() {
+recommend..addEventListener('input', function() {
   if (searchInput.value != '') {
     recommend.innerHTML = ""
     contents
@@ -368,6 +371,18 @@ recommend.addEventListener('focus', function() {
     recommend.style.display = "none"
   }
 })
+// recommend.addEventListener('focus', function() {
+  // if (searchInput.value != '') {
+  //   recommend.innerHTML = ""
+  //   contents
+  //   .filter(post => jaeum(searchInput.value, [post.title]).length > 0)
+  //   .slice(0, 5)
+  //   .forEach(recommendRender);
+  //   recommend.style.display = "block"
+  // } else {
+  //   recommend.style.display = "none"
+  // }
+// })
 recommend.addEventListener('focusout', function() {
   recommend.style.display = "none"
   recommend.innerHTML = ""
