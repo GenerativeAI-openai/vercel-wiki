@@ -147,7 +147,7 @@ textarea {
   width: 18px;
   height: 18px;
 }
-.parent {
+.recommend {
   position: absolute;
   top: 120px;         /* 원하는 만큼 위에서 띄움 */
   left: 50%;         /* 가로 가운데 정렬 */
