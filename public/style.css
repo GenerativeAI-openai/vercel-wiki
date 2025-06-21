@@ -160,6 +160,20 @@ textarea {
   z-index: 999;
   display: none;
 }
+
+.recommendTitle {
+  width: 100%;
+  height: 30px;
+  background-color: white;
+  border: none;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.recommendTitle:hover {
+  background-color: lightgray;
+}
+
 /* #like{
       fill: black;
 }
