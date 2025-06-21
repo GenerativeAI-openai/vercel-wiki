@@ -148,6 +148,7 @@ const contentInput = document.getElementById("contentInput");
 const saveBtn = document.getElementById("saveBtn");
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
+const recommend = document.querySelector(".recommend")
 let canThisUserEdit = false
 let postStartIndex = 0;
 let postEndIndex = 9;
@@ -339,38 +340,54 @@ function likePost(postId) {
     });
 }
 
-function updateFontControls() {
-  const content = document.getElementById(".content");
-  if (!content) return;
-  document.getElementById("font-size").addEventListener("change", e => {
-    content.style.fontSize = e.target.value;
-  });
-  document.getElementById("font-family").addEventListener("change", e => {
-    content.style.fontFamily = e.target.value;
-  });
-}
+// function updateFontControls() {
+//   const content = document.getElementById(".content");
+//   if (!content) return;
+//   document.getElementById("font-size").addEventListener("change", e => {
+//     content.style.fontSize = e.target.value;
+//   });
+//   document.getElementById("font-family").addEventListener("change", e => {
+//     content.style.fontFamily = e.target.value;
+//   });
+// }
+///////
 // window.addEventListener("scroll", () => {
 //   if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
 //       loadContents();
 //     }
 //   });
-
-document.addEventListener("click", function(e) {
-  const recommend = document.querySelector("recommend")
-  if (e.target.id == "searchInput") {
-    if (searchInput.value) {
-      contents
-      .filter(post => jaeum(searchInput.value, [post.title]).length > 0)
-      .slice(0, 5)
-      .forEach(recommendRender);
-      recommend.style.display = "block"
-    } else {
-      recommend.style.display = "none"
-    }
+recommend.addEventListener('focus', function() {
+  if (searchInput.value) {
+    recommend.innerHTML = ""
+    contents
+    .filter(post => jaeum(searchInput.value, [post.title]).length > 0)
+    .slice(0, 5)
+    .forEach(recommendRender);
+    recommend.style.display = "block"
   } else {
     recommend.style.display = "none"
   }
 })
+recommend.addEventListener('blur', function() {
+  recommend.style.display = "none"
+  recommend.innerHTML = ""
+})
+// document.addEventListener("click", function(e) {
+//   const recommend = document.querySelector(".recommend")
+//   if (e.target.id == "searchInput") {
+//     if (searchInput.value) {
+//       contents
+//       .filter(post => jaeum(searchInput.value, [post.title]).length > 0)
+//       .slice(0, 5)
+//       .forEach(recommendRender);
+//       recommend.style.display = "block"
+//     } else {
+//       recommend.style.display = "none"
+//     }
+//   } else {
+//     recommend.style.display = "none"
+//   }
+// })
 
 document.addEventListener("DOMContentLoaded", updateFontControls);
 // document.addEventListener("DOMContentLoaded", async () => {
