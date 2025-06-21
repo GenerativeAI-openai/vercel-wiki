@@ -389,7 +389,7 @@ recommend.addEventListener('blur', function() {
 //   }
 // })
 
-document.addEventListener("DOMContentLoaded", updateFontControls);
+// document.addEventListener("DOMContentLoaded", updateFontControls);
 // document.addEventListener("DOMContentLoaded", async () => {
 //   await loadPosts();
 // });
